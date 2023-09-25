@@ -14,7 +14,7 @@ website:
 
 format:
   html:
-    theme: journal
+    theme: superhero
     css: styles.css
     toc: true
 
