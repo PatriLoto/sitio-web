@@ -1,0 +1,22 @@
+project:
+  type: website
+
+website:
+  title: "Patricia A. Loto"
+  page-footer:
+    left: "Blog hecho con 💜 y [Quarto](https://quarto.org/), por Patricia Loto. Licencia: [CC BY-SA 2.0](https://creativecommons.org/licenses/by-sa/2.0/)."
+  navbar:
+    left:
+      - href: index.qmd
+        text: Inicio
+      - href: about.qmd
+        text: "Sobre mí"
+
+format:
+  html:
+    theme: journal
+    css: styles.css
+    toc: true
+
+editor: visual
+

@@ -1,0 +1,19 @@
+---
+title: " ¡Hola 👋, soy Patricia Loto!"
+subtitle: "Apasionada por los datos y la accesibilidad digital."
+image: perfil.png
+toc: false
+about: 
+  template: jolla
+  image-shape: round
+  image-width: 20em
+  links:
+    - text: GitHub
+      href: https://github.com/PatriLoto
+    - text: LinkedIn
+      href: https://www.linkedin.com/in/patricia-loto/
+    - text: Twitter
+      href: https://twitter.com/patriloto
+    - text: Email
+      href: mailto:patricia.andrea.loto@gmail.com
+---
