@@ -8,8 +8,24 @@ Soy Licenciada en Sistemas de Información y Diplomada en Ciencias de Datos, Apr
 
 ## Experiencia
 
-Mi pasión por el aprendizaje y la colaboración en diversas facetas me ha llevado a ser parte activa de diferentes comunidades y programas de mentoreo. Durante la [cohorte nro. 7](https://openlifesci.org/openseeds/ols-7/projects-participants.html#participants) del Programa de mentoreo y entrenamiento Open Seeds, ofrecido por la prestigiosa comunidad [Open Life Science (OLS)](https://openlifesci.org/), tuve el privilegio de ser mentee. Esta experiencia fue fundamental para mi desarrollo profesional, proporcionándome conocimientos sólidos y experiencias valiosas. En la actualidad, soy mentora en la cohorte nro. 8 (OLS-8) de este mismo programa, donde guío y respaldo a otros profesionales en sus trayectorias. Desde principios de 2021, formo parte activa del equipo de accesibilidad de Metadocencia, donde trabajamos incansablemente para hacer que la educación sea inclusiva y accesible para todos, marcando una diferencia significativa en el campo de la educación. Recientemente, me sumé al equipo de trabajo encargado del [mapeo de comunidades](https://ciencia-abierta-en-latinoamerica.netlify.app/) y de enseñanza, donde contribuyo a conectar a individuos apasionados por el aprendizaje y la enseñanza, impulsando la colaboración y el crecimiento.
+Gobierno: Trabajo desarrollando soluciones digitales con Genexus y Sql en una entidad de gobierno de la Prov. del Chaco., donde algunas de mis funciones son relevar las necesidades de los usuarios, llevar a cabo el análisis funcional, diseñar un sistema que satisfaga las necesidades relevadas, programar y luego poner en marcha el software. También capacito a los nuevos integrantes para que puedan aportar valor al equipo. 
 
-## Certificaciones y Comunidades
+Organización sin fines de Lucro: Desde el 2021, formo parte activa del equipo de accesibilidad de Metadocencia, donde trabajamos incansablemente para promover una educación sea inclusiva y accesible para todos. En el 2023 me incorporé al equipo de Comunidad, encargado del [mapeo de comunidades, eventos y recursos de ciencia abierta](https://ciencia-abierta-en-latinoamerica.netlify.app/) y a partir del 2024 estoy contribuyendo activamente con el equipo de Formación, donde contribuyo.
 
-Mis credenciales incluyen la certificación como Instructora por [The Carpentries](https://carpentries.org/instructors/), así como [Instructora de tidyverse por Rstudio](https://education.rstudio.com/trainers/), lo que refleja mi compromiso con la educación y el empoderamiento a través de la tecnología. Además, soy un miembro activo en comunidades como R-Ladies, the Carpentries, [Latin-R](https://latin-r.com/sobre/equipo/) y [The Turing Way](https://the-turing-way.netlify.app/index.html), donde contribuyo y me nutro del aprendizaje en comunidad. Mi constante deseo de aprender y compartir conocimientos me motiva a seguir ampliando mis horizontes y aportando al mundo de la ciencia de datos y la informática de manera significativa.
+## Certificaciones 
+
+Mis credenciales reflejan mi compromiso con la educación y el empoderamiento a través de la tecnología e incluyen la certificación como:
+* [Instructora por The Carpentries](https://carpentries.org/instructors/), 
+* [Instructora de tidyverse por Rstudio](https://education.rstudio.com/trainers/),
+* [Fundamentos de Construcción de comunidades científicas](https://badgr.com/public/assertions/ogcwi_Y8RZWedkV70_oiPQ?identity__email=patricialoto@metadocencia.org),
+* Analista Junior de Genexus.
+
+## Comunidades
+
+Participo activamente de distintas comunidades promoviendo la accesibilidad y la enseñanza de R, tales como R-Ladies, [Latin-R](https://latin-r.com/sobre/equipo/) y [The Turing Way](https://the-turing-way.netlify.app/index.html). También colaboré con OLS, primero participé como mentee de la [cohorte nro. 7](https://openlifesci.org/openseeds/ols-7/projects-participants.html) del Programa de mentoreo y entrenamiento Open Seeds dictado por la increíble comunidad [Open Life Science (OLS)](https://openlifesci.org/).  Esta experiencia fue fundamental ya que me proporciono  conocimientos sólidos y experiencias valiosas sobre gestión de proyectos, trabajo colaborativo, datos y licencias abiertas y construcción de comunidades de prácticas. Finalmente, fui mentora del proyecto [PsychGIGA](https://github.com/vskentrou/PsychGIGA/issues/3) en la cohorte nro. 8 (OLS-8), donde guíe y apoye a los mentees en la definición de una hoja de ruta y canvas del proyecto y en la elección d ela licencia adecuada para el mismo.
+
+## Proyectos
+En estos momentos contribuyo con los siguientes proyectos:
+* [Mapeo de Comunidades](https://www.metadocencia.org/proyecto/mapeo-comunidades/)
+* [ALTa Ciencia Abierta](https://www.metadocencia.org/alta-ca/2-2024/)
+* [Determining Climate Risks with NASA Earthdata Cloud](https://github.com/ScienceCore/climaterisk)
