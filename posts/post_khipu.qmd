@@ -19,8 +19,6 @@ format:
 Este marzo tuve el privilegio de asistir a la [Khipu 2025](https://khipu.ai/), el encuentro latinoamericano de Inteligencia Artificial más importante de nuestra región. Fueron días intensos de aprendizaje, networking y, sobre todo, de reafirmar que Latinoamérica tiene mucho que aportar al mundo de la IA.
 
 
-![Comunidad Khipu](conferencia.jpg)
-
 ::: callout-note
 ## ¿Qué es Khipu?
 
