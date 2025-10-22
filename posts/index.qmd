@@ -1,0 +1,28 @@
+---
+title: "Blog"
+listing:
+  contents: "**/*.qmd"  # This tells Quarto to list all .qmd files recursively in this directory
+  sort: "date desc"    # Sorts posts by date, descending (newest first)
+  type: default        # The default listing style (you can use `grid` too)
+  categories: true     # Enable category filtering
+  fields: [image, date, title, description, author, reading-time, categories]
+  page-size: 6
+  date-format: "D [de] MMMM, YYYY"
+
+page-layout: full
+title-block-banner: true
+title-block-style: default
+toc: true
+---
+
+:::{.lead}
+
+¡Bienvenidos a mi blog! Aquí encontrarás artículos sobre mis proyectos, aprendizajes y pensamientos sobre R, ingeniería del software, eventos de tecnología y construcción de 
+comunidad.
+:::
+
+---
+
+## 📝 Posts Recientes
+
+

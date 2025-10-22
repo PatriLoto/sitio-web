@@ -1,37 +1,142 @@
 [
   {
+    "objectID": "posts/post_khipu.html",
+    "href": "posts/post_khipu.html",
+    "title": "Mi experiencia en Khipu 2025: Inteligencia Artificial desde una perspectiva latinoamericana",
+    "section": "",
+    "text": "Este marzo tuve el privilegio de asistir a la Khipu 2025, el encuentro latinoamericano de Inteligencia Artificial más importante de nuestra región. Fueron días intensos de aprendizaje, networking y, sobre todo, de reafirmar que Latinoamérica tiene mucho que aportar al mundo de la IA.\n\n\n\nComunidad Khipu\n\n\n\n\n\n\n\n\n¿Qué es Khipu?\n\n\n\nKhipu es más que una conferencia: es un movimiento que busca fortalecer la comunidad de machine learning e IA en Latinoamérica, ofreciendo formación en temas avanzados y creando oportunidades de colaboración entre investigadores de la región y la comunidad internacional."
+  },
+  {
+    "objectID": "posts/post_khipu.html#una-experiencia-transformadora",
+    "href": "posts/post_khipu.html#una-experiencia-transformadora",
+    "title": "Mi experiencia en Khipu 2025: Inteligencia Artificial desde una perspectiva latinoamericana",
+    "section": "",
+    "text": "Este marzo tuve el privilegio de asistir a la Khipu 2025, el encuentro latinoamericano de Inteligencia Artificial más importante de nuestra región. Fueron días intensos de aprendizaje, networking y, sobre todo, de reafirmar que Latinoamérica tiene mucho que aportar al mundo de la IA.\n\n\n\nComunidad Khipu\n\n\n\n\n\n\n\n\n¿Qué es Khipu?\n\n\n\nKhipu es más que una conferencia: es un movimiento que busca fortalecer la comunidad de machine learning e IA en Latinoamérica, ofreciendo formación en temas avanzados y creando oportunidades de colaboración entre investigadores de la región y la comunidad internacional."
+  },
+  {
+    "objectID": "posts/post_khipu.html#los-talleres-que-marcaron-mi-experiencia",
+    "href": "posts/post_khipu.html#los-talleres-que-marcaron-mi-experiencia",
+    "title": "Mi experiencia en Khipu 2025: Inteligencia Artificial desde una perspectiva latinoamericana",
+    "section": "2 Los talleres que marcaron mi experiencia",
+    "text": "2 Los talleres que marcaron mi experiencia\nDurante el evento, participé en dos talleres prácticos que me dieron perspectivas únicas sobre cómo abordar la IA desde nuestra realidad latinoamericana.\n\n2.1 🌍 Evaluación Socio-Cultural de la IA\nUno de los talleres más reveladores fue el de Socio-Cultural Evaluation of AI. Este taller me abrió los ojos sobre algo fundamental: los sistemas de IA no son neutrales, reflejan y amplifican los sesgos culturales presentes en sus datos de entrenamiento.\n\n2.1.1 Lo que aprendí\nDurante el taller:\n\nAnalizamos sesgos en modelos de lenguaje: Descubrimos cómo los LLMs pueden perpetuar estereotipos sobre nuestras culturas latinoamericanas.\nExploramos benchmarks culturalmente situados: Trabajamos con herramientas como SeeGULL y HESEIA, diseñadas específicamente para evaluar sesgos desde diferentes perspectivas culturales.\nExperimentamos como anotadores: Una actividad particularmente impactante fue ponernos en el rol de crowdworkers para entender cómo las decisiones de anotación moldean los resultados de la IA.\n\n\n\n\n\n\n\nReflexión clave\n\n\n\nLo más valioso fue entender que necesitamos desarrollar nuestras propias métricas y benchmarks que reflejen la diversidad cultural latinoamericana, no simplemente importar estándares del norte global.\n\n\n\n\n\n2.2 🛰️ Machine Learning Geoespacial\nEl segundo taller, Geospatial Machine Learning, fue una inmersión práctica en el uso de ML para resolver problemas reales de nuestra región.\n\n2.2.1 El desafío: Mapear la agricultura chilena\nEl objetivo era clasificar tipos de cultivos a nivel de granja en Chile usando imágenes satelitales Sentinel-2. Este tipo de aplicaciones son cruciales para:\n\n🌱 Seguridad alimentaria\n💧 Gestión de recursos hídricos\n\n🌡️ Adaptación al cambio climático\n📊 Políticas públicas basadas en datos\n\n# Ejemplo conceptual del flujo de trabajo\nimport ee  # Google Earth Engine\nimport pandas as pd\nimport numpy as np\nfrom sklearn.ensemble import RandomForestClassifier\n\n# Inicializar Earth Engine\nee.Initialize()\n\n# Definir área de interés (Chile central)\naoi = ee.Geometry.Rectangle([-71.5, -34.0, -70.0, -32.5])\n\n# Obtener imágenes Sentinel-2\nsentinel = ee.ImageCollection('COPERNICUS/S2_SR') \\\n    .filterBounds(aoi) \\\n    .filterDate('2023-01-01', '2023-12-31') \\\n    .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', 20))\n\n# Calcular índices vegetacionales\ndef add_indices(image):\n    ndvi = image.normalizedDifference(['B8', 'B4']).rename('NDVI')\n    ndwi = image.normalizedDifference(['B3', 'B8']).rename('NDWI')\n    return image.addBands([ndvi, ndwi])\n\n# Aplicar a la colección\nsentinel_with_indices = sentinel.map(add_indices)\n\n\n2.2.2 Aprendizajes técnicos\n\nPreprocesamiento de datos satelitales: Aprendí sobre corrección atmosférica, manejo de nubes y composición temporal.\nFeature engineering geoespacial: Creación de índices espectrales (NDVI, NDWI, EVI) y características temporales.\nValidación espacial: La importancia de considerar la autocorrelación espacial en la evaluación de modelos.\n\n\n\n\n\n\n\nHerramientas clave\n\n\n\n\nGoogle Earth Engine: Para procesamiento masivo de imágenes satelitales\nGeoPandas: Manejo de datos vectoriales\nRasterio: Lectura y escritura de datos raster\nscikit-learn: Modelos de ML adaptados al contexto geoespacial"
+  },
+  {
+    "objectID": "posts/post_khipu.html#conexiones-y-comunidad",
+    "href": "posts/post_khipu.html#conexiones-y-comunidad",
+    "title": "Mi experiencia en Khipu 2025: Inteligencia Artificial desde una perspectiva latinoamericana",
+    "section": "3 Conexiones y comunidad",
+    "text": "3 Conexiones y comunidad\nMás allá de lo técnico, Khipu fue un espacio de conexión humana. Conocí a:\n\nInvestigadores trabajando en problemas similares en diferentes países\nEstudiantes con ideas frescas y ganas de cambiar el mundo\nProfesionales de la industria buscando aplicar IA de manera responsable\n\n\n3.1 La red Khipu\nUna de las iniciativas más valiosas es KHIPUx, que busca replicar el espíritu de Khipu a escala local en diferentes países. Esto permite que más personas accedan a formación de calidad sin necesidad de viajar."
+  },
+  {
+    "objectID": "posts/post_khipu.html#reflexiones-finales-ia-con-identidad-latinoamericana",
+    "href": "posts/post_khipu.html#reflexiones-finales-ia-con-identidad-latinoamericana",
+    "title": "Mi experiencia en Khipu 2025: Inteligencia Artificial desde una perspectiva latinoamericana",
+    "section": "4 Reflexiones finales: IA con identidad latinoamericana",
+    "text": "4 Reflexiones finales: IA con identidad latinoamericana\nMi experiencia en Khipu 2024 reforzó tres convicciones:\n\n4.1 1. Necesitamos IA contextualizada\nNo podemos simplemente importar soluciones. Nuestros problemas requieren enfoques que consideren: - Nuestra diversidad lingüística (español, portugués, lenguas indígenas) - Nuestras realidades socioeconómicas - Nuestros desafíos únicos (informalidad, brechas digitales, etc.)\n\n\n4.2 2. La colaboración regional es clave\nLos problemas que enfrentamos trascienden fronteras: - Cambio climático en los Andes - Deforestación en la Amazonía - Migración y movilidad urbana - Inclusión financiera\n\n\n4.3 3. Podemos liderar en IA responsable\nTenemos la oportunidad de desarrollar IA de manera diferente: - Priorizando la inclusión desde el diseño - Considerando el impacto social desde el inicio - Valorando el conocimiento local y tradicional"
+  },
+  {
+    "objectID": "posts/post_khipu.html#recursos-y-próximos-pasos",
+    "href": "posts/post_khipu.html#recursos-y-próximos-pasos",
+    "title": "Mi experiencia en Khipu 2025: Inteligencia Artificial desde una perspectiva latinoamericana",
+    "section": "5 Recursos y próximos pasos",
+    "text": "5 Recursos y próximos pasos\nPara quienes quieran profundizar:\n\n5.1 📚 Repositorios de Khipu\n\nPracticals 2025\nRecursos globales\n\n\n\n5.2 🎯 Cómo involucrarse\n\nÚnete a la comunidad: Sigue @Khipu_AI\nParticipa en KHIPUx: Organiza o asiste a eventos locales\nContribuye: Comparte tus proyectos y aprendizajes\n\n\n\n5.3 💡 Proyectos inspirados\nDesde mi regreso, estoy trabajando en: - Un dataset de imágenes satelitales para monitoreo agrícola en Argentina - Herramientas para evaluar sesgos en modelos de lenguaje en español - Colaboraciones con otros participantes de Khipu"
+  },
+  {
+    "objectID": "posts/post_khipu.html#agradecimientos",
+    "href": "posts/post_khipu.html#agradecimientos",
+    "title": "Mi experiencia en Khipu 2025: Inteligencia Artificial desde una perspectiva latinoamericana",
+    "section": "6 Agradecimientos",
+    "text": "6 Agradecimientos\nGracias a los organizadores de Khipu por crear este espacio único, a los instructores de los talleres por compartir su conocimiento, y a todos los participantes por las conversaciones enriquecedoras.\n\n\n\n\n\n\n¿Participaste en Khipu o te interesa la IA latinoamericana? Me encantaría conocer tu experiencia y proyectos. ¡Conectemos!\n\n\n\n\nEste post es parte de mi compromiso de compartir conocimiento y fortalecer la comunidad de IA en Latinoamérica. Si te resultó útil, compártelo con otros que puedan estar interesados."
+  },
+  {
     "objectID": "about.html",
     "href": "about.html",
     "title": "Acerca de mí",
     "section": "",
-    "text": "Soy Licenciada en Sistemas de Información y Diplomada en Ciencias de Datos, Aprendizaje Automático y sus Aplicaciones por la FAMAF de la Universidad Nacional de Córdoba."
+    "text": "Soy Licenciada en Sistemas de Información(UNNE) y Diplomada en Ciencias de Datos, Aprendizaje Automático y sus Aplicaciones por la FAMAF de la Universidad Nacional de Córdoba. Actualemente, estoy cursando una maestría en Tecnologías de la Información en UNNE."
   },
   {
     "objectID": "about.html#educación",
     "href": "about.html#educación",
     "title": "Acerca de mí",
     "section": "",
-    "text": "Soy Licenciada en Sistemas de Información y Diplomada en Ciencias de Datos, Aprendizaje Automático y sus Aplicaciones por la FAMAF de la Universidad Nacional de Córdoba."
+    "text": "Soy Licenciada en Sistemas de Información(UNNE) y Diplomada en Ciencias de Datos, Aprendizaje Automático y sus Aplicaciones por la FAMAF de la Universidad Nacional de Córdoba. Actualemente, estoy cursando una maestría en Tecnologías de la Información en UNNE."
   },
   {
     "objectID": "about.html#experiencia",
     "href": "about.html#experiencia",
     "title": "Acerca de mí",
     "section": "Experiencia",
-    "text": "Experiencia\nMi pasión por el aprendizaje y la colaboración en diversas facetas me ha llevado a ser parte activa de diferentes comunidades y programas de mentoreo. Durante la cohorte nro. 7 del Programa de mentoreo y entrenamiento Open Seeds, ofrecido por la prestigiosa comunidad Open Life Science (OLS), tuve el privilegio de ser mentee. Esta experiencia fue fundamental para mi desarrollo profesional, proporcionándome conocimientos sólidos y experiencias valiosas. En la actualidad, soy mentora en la cohorte nro. 8 (OLS-8) de este mismo programa, donde guío y respaldo a otros profesionales en sus trayectorias. Desde principios de 2021, formo parte activa del equipo de accesibilidad de Metadocencia, donde trabajamos incansablemente para hacer que la educación sea inclusiva y accesible para todos, marcando una diferencia significativa en el campo de la educación. Recientemente, me sumé al equipo de trabajo encargado del mapeo de comunidades y de enseñanza, donde contribuyo a conectar a individuos apasionados por el aprendizaje y la enseñanza, impulsando la colaboración y el crecimiento."
+    "text": "Experiencia\nGobierno: Trabajo desarrollando soluciones digitales con Genexus y Sql en una entidad de gobierno de la Prov. del Chaco., donde algunas de mis funciones son relevar las necesidades de los usuarios, diseñar y desarrollas un sistema que satisfaga las necesidades relevadas y redactar documentación técnica. También capacito a los nuevos integrantes para que puedan aportar valor al equipo.\nOrganización sin fines de Lucro: Desde el 2021 hasta principios del 2025, formé parte activa del equipo de accesibilidad en Metadocencia, donde trabajamos incansablemente para promover una educación inclusiva y accesible para todos. En el 2023 me incorporé al equipo de Comunidad, donde trabajé en el proyecto mapeo de comunidades, eventos y recursos de ciencia abierta, partir del 2024 dicté el módulo de Código Abierto de las cohortes de formación virtual ALTaCA (América Latina Transforma a la Ciencia Abierta). Actualmente, soy parte del parte Polen.\nMis credenciales reflejan mi compromiso con la educación y el empoderamiento a través de la tecnología e incluyen la certificación como:\n\nInstructora por The Carpentries,\nInstructora de tidyverse por Rstudio,\nFundamentos de Construcción de comunidades científicas."
   },
   {
-    "objectID": "about.html#certificaciones",
-    "href": "about.html#certificaciones",
+    "objectID": "about.html#comunidades",
+    "href": "about.html#comunidades",
     "title": "Acerca de mí",
-    "section": "Certificaciones",
-    "text": "Certificaciones\nMis credenciales incluyen la certificación como Instructora por The Carpentries, así como Instructora de tidyverse por Rstudio, lo que refleja mi compromiso con la educación y el empoderamiento a través de la tecnología. Además, soy un miembro activo en comunidades influyentes como R-Ladies, the Carpentries, Latin-R y The Turing Way, donde contribuyo y me nutro del aprendizaje en comunidad. Mi constante deseo de aprender y compartir conocimientos me motiva a seguir ampliando mis horizontes y aportando al mundo de la ciencia de datos y la informática de manera significativa."
+    "section": "Comunidades",
+    "text": "Comunidades\nParticipo activamente de distintas comunidades promoviendo la accesibilidad y la enseñanza de R, tales como R-Ladies, Latin-R y The Turing Way. También colaboré con OLS, primero participé como mentee de la cohorte nro. 7 del Programa de mentoreo y entrenamiento Open Seeds dictado por la increíble comunidad Open Life Science (OLS). Esta experiencia fue fundamental ya que me proporciono conocimientos sólidos y experiencias valiosas sobre gestión de proyectos, trabajo colaborativo, datos y licencias abiertas y construcción de comunidades de prácticas. Finalmente, fui mentora del proyecto PsychGIGA en la cohorte nro. 8 (OLS-8), donde colaboré y apoyé a los mentees en diferente acivitidades (como la definición de una hoja de ruta, la elaboración de un canvas del proyecto, los conecté con expertos en temas de licenciamiento, entre otras), como así también los guíe en la toma de decisiones."
   },
   {
-    "objectID": "about.html#certificaciones-y-comunidades",
-    "href": "about.html#certificaciones-y-comunidades",
+    "objectID": "about.html#proyectos",
+    "href": "about.html#proyectos",
     "title": "Acerca de mí",
-    "section": "Certificaciones y Comunidades",
-    "text": "Certificaciones y Comunidades\nMis credenciales incluyen la certificación como Instructora por The Carpentries, así como Instructora de tidyverse por Rstudio, lo que refleja mi compromiso con la educación y el empoderamiento a través de la tecnología. Además, soy un miembro activo en comunidades como R-Ladies, the Carpentries, Latin-R y The Turing Way, donde contribuyo y me nutro del aprendizaje en comunidad. Mi constante deseo de aprender y compartir conocimientos me motiva a seguir ampliando mis horizontes y aportando al mundo de la ciencia de datos y la informática de manera significativa."
+    "section": "Proyectos",
+    "text": "Proyectos\nActuales:\n\nAsistente Virtual como apoyo a la implementación de prácticas de Ciencia Abierta en Latinoamérica\nTemplate para elaborar un plan de gestión de software\n\nProyectos anteriores :\n\nMapeo de Comunidades\nALTa Ciencia Abierta\nDetermining Climate Risks with NASA Earthdata Cloud"
+  },
+  {
+    "objectID": "about_english.html",
+    "href": "about_english.html",
+    "title": "About me",
+    "section": "",
+    "text": "Soy Licenciada en Sistemas de Información(UNNE) y Diplomada en Ciencias de Datos, Aprendizaje Automático y sus Aplicaciones por la FAMAF de la Universidad Nacional de Córdoba."
+  },
+  {
+    "objectID": "about_english.html#education",
+    "href": "about_english.html#education",
+    "title": "About me",
+    "section": "",
+    "text": "Soy Licenciada en Sistemas de Información(UNNE) y Diplomada en Ciencias de Datos, Aprendizaje Automático y sus Aplicaciones por la FAMAF de la Universidad Nacional de Córdoba."
+  },
+  {
+    "objectID": "about_english.html#experience",
+    "href": "about_english.html#experience",
+    "title": "About me",
+    "section": "Experience",
+    "text": "Experience\nGobierno: Trabajo desarrollando soluciones digitales con Genexus y Sql en una entidad de gobierno de la Prov. del Chaco., donde algunas de mis funciones son relevar las necesidades de los usuarios, llevar a cabo el análisis funcional, diseñar un sistema que satisfaga las necesidades relevadas, programar y luego poner en marcha el software. También capacito a los nuevos integrantes para que puedan aportar valor al equipo.\nOrganización sin fines de Lucro: Desde el 2021, formo parte activa del equipo de accesibilidad de Metadocencia, donde trabajamos incansablemente para promover una educación sea inclusiva y accesible para todos. En el 2023 me incorporé al equipo de Comunidad, encargado del mapeo de comunidades, eventos y recursos de ciencia abierta y a partir del 2024 estoy contribuyendo activamente con el equipo de Formación, donde contribuyo."
+  },
+  {
+    "objectID": "about_english.html#credentials",
+    "href": "about_english.html#credentials",
+    "title": "About me",
+    "section": "Credentials",
+    "text": "Credentials\nMis credenciales reflejan mi compromiso con la educación y el empoderamiento a través de la tecnología e incluyen la certificación como: * Instructora por The Carpentries, * Instructora de tidyverse por Rstudio, * Fundamentos de Construcción de comunidades científicas, * Analista Junior de Genexus."
+  },
+  {
+    "objectID": "about_english.html#communities",
+    "href": "about_english.html#communities",
+    "title": "About me",
+    "section": "Communities",
+    "text": "Communities\nParticipo activamente de distintas comunidades promoviendo la accesibilidad y la enseñanza de R, tales como R-Ladies, Latin-R y The Turing Way. También colaboré con OLS, primero participé como mentee de la cohorte nro. 7 del Programa de mentoreo y entrenamiento Open Seeds dictado por la increíble comunidad Open Life Science (OLS). Esta experiencia fue fundamental ya que me proporciono conocimientos sólidos y experiencias valiosas sobre gestión de proyectos, trabajo colaborativo, datos y licencias abiertas y construcción de comunidades de prácticas. Finalmente, fui mentora del proyecto PsychGIGA en la cohorte nro. 8 (OLS-8), donde colaboré y apoyé a los mentees en diferente acivitidades (como la definición de una hoja de ruta, la elaboración de un canvas del proyecto, los conecté con expertos en temas de licenciamiento, entre otras), como así también los guíe en la toma de decisiones."
+  },
+  {
+    "objectID": "about_english.html#projects",
+    "href": "about_english.html#projects",
+    "title": "About me",
+    "section": "Projects",
+    "text": "Projects\nEn estos momentos contribuyo con los siguientes proyectos: * Mapeo de Comunidades * ALTa Ciencia Abierta * Determining Climate Risks with NASA Earthdata Cloud"
+  },
+  {
+    "objectID": "posts/index.html",
+    "href": "posts/index.html",
+    "title": "Blog",
+    "section": "",
+    "text": "¡Bienvenidos a mi blog! Aquí encontrarás artículos sobre mis proyectos, aprendizajes y pensamientos sobre R, ingeniería del software, eventos de tecnología y construcción de comunidad."
+  },
+  {
+    "objectID": "posts/index.html#posts-recientes",
+    "href": "posts/index.html#posts-recientes",
+    "title": "Blog",
+    "section": "📝 Posts Recientes",
+    "text": "📝 Posts Recientes"
   }
 ]

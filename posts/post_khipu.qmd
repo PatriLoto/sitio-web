@@ -1,0 +1,169 @@
+---
+title: "Mi experiencia en Khipu 2025: Inteligencia Artificial desde una perspectiva latinoamericana"
+description: "Reflexiones sobre mi participación en el encuentro latinoamericano de IA más importante y los aprendizajes de los talleres de evaluación sociocultural de IA y machine learning geoespacial"
+author:  "Patricia A. Loto"
+date: "2025-04-20"
+categories: [inteligencia-artificial, khipu, conferencias, machine-learning, latinoamérica]
+image: "khipu.jpg"
+draft: false
+toc: true
+number-sections: true
+format:
+  html:
+    code-fold: true
+    code-summary: "Ver código"
+---
+
+## Una experiencia transformadora
+
+Este marzo tuve el privilegio de asistir a la [Khipu 2025](https://khipu.ai/), el encuentro latinoamericano de Inteligencia Artificial más importante de nuestra región. Fueron días intensos de aprendizaje, networking y, sobre todo, de reafirmar que Latinoamérica tiene mucho que aportar al mundo de la IA.
+
+![Comunidad Khipu](conferencia.jpg)
+
+::: callout-note
+## ¿Qué es Khipu?
+
+Khipu es más que una conferencia: es un movimiento que busca fortalecer la comunidad de machine learning e IA en Latinoamérica, ofreciendo formación en temas avanzados y creando oportunidades de colaboración entre investigadores de la región y la comunidad internacional.
+:::
+
+## Los talleres que marcaron mi experiencia
+
+Durante el evento, participé en dos talleres prácticos que me dieron perspectivas únicas sobre cómo abordar la IA desde nuestra realidad latinoamericana.
+
+### 🌍 Evaluación Socio-Cultural de la IA
+
+Uno de los talleres más reveladores fue el de [**Socio-Cultural Evaluation of AI**](https://github.com/khipu-ai/practicals-2025/blob/main/notebooks/Socio-Cultural%20Evaluation%20of%20AI.ipynb). Este taller me abrió los ojos sobre algo fundamental: los sistemas de IA no son neutrales, reflejan y amplifican los sesgos culturales presentes en sus datos de entrenamiento.
+
+#### Lo que aprendí
+
+Durante el taller:
+
+1.  **Analizamos sesgos en modelos de lenguaje**: Descubrimos cómo los LLMs pueden perpetuar estereotipos sobre nuestras culturas latinoamericanas.
+
+2.  **Exploramos benchmarks culturalmente situados**: Trabajamos con herramientas como SeeGULL y HESEIA, diseñadas específicamente para evaluar sesgos desde diferentes perspectivas culturales.
+
+3.  **Experimentamos como anotadores**: Una actividad particularmente impactante fue ponernos en el rol de crowdworkers para entender cómo las decisiones de anotación moldean los resultados de la IA.
+
+::: callout-important
+## Reflexión clave
+
+Lo más valioso fue entender que necesitamos desarrollar nuestras propias métricas y benchmarks que reflejen la diversidad cultural latinoamericana, no simplemente importar estándares del norte global.
+:::
+
+### 🛰️ Machine Learning Geoespacial
+
+El segundo taller, [**Geospatial Machine Learning**](https://github.com/khipu-ai/practicals-2025/blob/main/notebooks/Geospatial_Machine_Learning.ipynb), fue una inmersión práctica en el uso de ML para resolver problemas reales de nuestra región.
+
+#### El desafío: Mapear la agricultura chilena
+
+El objetivo era clasificar tipos de cultivos a nivel de granja en Chile usando imágenes satelitales Sentinel-2. Este tipo de aplicaciones son cruciales para:
+
+-   🌱 Seguridad alimentaria
+-   💧 Gestión de recursos hídricos\
+-   🌡️ Adaptación al cambio climático
+-   📊 Políticas públicas basadas en datos
+
+``` python
+# Ejemplo conceptual del flujo de trabajo
+import ee  # Google Earth Engine
+import pandas as pd
+import numpy as np
+from sklearn.ensemble import RandomForestClassifier
+
+# Inicializar Earth Engine
+ee.Initialize()
+
+# Definir área de interés (Chile central)
+aoi = ee.Geometry.Rectangle([-71.5, -34.0, -70.0, -32.5])
+
+# Obtener imágenes Sentinel-2
+sentinel = ee.ImageCollection('COPERNICUS/S2_SR') \
+    .filterBounds(aoi) \
+    .filterDate('2023-01-01', '2023-12-31') \
+    .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', 20))
+
+# Calcular índices vegetacionales
+def add_indices(image):
+    ndvi = image.normalizedDifference(['B8', 'B4']).rename('NDVI')
+    ndwi = image.normalizedDifference(['B3', 'B8']).rename('NDWI')
+    return image.addBands([ndvi, ndwi])
+
+# Aplicar a la colección
+sentinel_with_indices = sentinel.map(add_indices)
+```
+
+#### Aprendizajes técnicos
+
+1.  **Preprocesamiento de datos satelitales**: Aprendí sobre corrección atmosférica, manejo de nubes y composición temporal.
+
+2.  **Feature engineering geoespacial**: Creación de índices espectrales (NDVI, NDWI, EVI) y características temporales.
+
+3.  **Validación espacial**: La importancia de considerar la autocorrelación espacial en la evaluación de modelos.
+
+::: callout-tip
+## Herramientas clave
+
+-   **Google Earth Engine**: Para procesamiento masivo de imágenes satelitales
+-   **GeoPandas**: Manejo de datos vectoriales
+-   **Rasterio**: Lectura y escritura de datos raster
+-   **scikit-learn**: Modelos de ML adaptados al contexto geoespacial
+:::
+
+## Conexiones y comunidad
+
+Más allá de lo técnico, Khipu fue un espacio de conexión humana. Conocí a:
+
+-   Investigadores trabajando en problemas similares en diferentes países
+-   Estudiantes con ideas frescas y ganas de cambiar el mundo
+-   Profesionales de la industria buscando aplicar IA de manera responsable
+
+### La red Khipu
+
+Una de las iniciativas más valiosas es **KHIPUx**, que busca replicar el espíritu de Khipu a escala local en diferentes países. Esto permite que más personas accedan a formación de calidad sin necesidad de viajar.
+
+## Reflexiones finales: IA con identidad latinoamericana
+
+Mi experiencia en Khipu 2025 reforzó tres convicciones:
+
+### 1. **Necesitamos IA contextualizada**
+
+No podemos simplemente importar soluciones. Nuestros problemas requieren enfoques que consideren: - Nuestra diversidad lingüística (español, portugués, lenguas indígenas) - Nuestras realidades socioeconómicas - Nuestros desafíos únicos (informalidad, brechas digitales, etc.)
+
+### 2. **La colaboración regional es clave**
+
+Los problemas que enfrentamos trascienden fronteras: - Cambio climático en los Andes - Deforestación en la Amazonía - Migración y movilidad urbana - Inclusión financiera
+
+### 3. **Podemos liderar en IA responsable**
+
+Tenemos la oportunidad de desarrollar IA de manera diferente: - Priorizando la inclusión desde el diseño - Considerando el impacto social desde el inicio - Valorando el conocimiento local y tradicional
+
+## Recursos y próximos pasos
+
+Para quienes quieran profundizar:
+
+### 📚 Repositorios de Khipu
+
+-   [Practicals 2025](https://github.com/khipu-ai/practicals-2025)
+-   [Recursos globales](https://github.com/khipu-ai/global-resources)
+
+### 🎯 Cómo involucrarse
+
+1.  **Únete a la comunidad**: Sigue [\@Khipu_AI](https://twitter.com/Khipu_AI)
+2.  **Participa en KHIPUx**: Organiza o asiste a eventos locales
+3.  **Contribuye**: Comparte tus proyectos y aprendizajes
+
+### 💡 Proyectos inspirados
+
+Desde mi regreso, estoy trabajando en: - Un dataset de imágenes satelitales para monitoreo agrícola en Argentina - Herramientas para evaluar sesgos en modelos de lenguaje en español - Colaboraciones con otros participantes de Khipu
+
+## Agradecimientos
+
+Gracias a los organizadores de Khipu por crear este espacio único, a los instructores de los talleres por compartir su conocimiento, y a todos los participantes por las conversaciones enriquecedoras.
+
+::: {.callout-note appearance="simple" icon="false"}
+**¿Participaste en Khipu o te interesa la IA latinoamericana?** Me encantaría conocer tu experiencia y proyectos. ¡Conectemos!
+:::
+
+------------------------------------------------------------------------
+
+*Este post es parte de mi compromiso de compartir conocimiento y fortalecer la comunidad de IA en Latinoamérica. Si te resultó útil, compártelo con otros que puedan estar interesados.*

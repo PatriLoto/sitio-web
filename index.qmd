@@ -1,6 +1,10 @@
 ---
 title: " ¡Hola 👋, soy Patricia Loto!"
-subtitle: "Apasionada por los datos y la accesibilidad digital. Entusiasta de R"
+subtitle: " R | Ciencia Abierta | Código abierto | Ingeniería del Software"
+tags: 
+  - R
+  - Ciencia Abierta
+  - Ingeniería del Software
 image: perfil.png
 toc: false
 about: 

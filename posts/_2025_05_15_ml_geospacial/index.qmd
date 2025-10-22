@@ -1,0 +1,102 @@
+---
+title: "Machine Learning Geoespacial para agricultura: Lo que aprendí en Khipu 2024"
+description: "Tutorial completo sobre clasificación de cultivos usando Sentinel-2 y técnicas de ML geoespacial, basado en el taller práctico de Khipu 2024"
+author: "Tu Nombre"
+date: "2024-03-25"
+categories: [machine-learning, geoespacial, agricultura, sentinel-2, python, khipu]
+image: "https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?w=1200"
+draft: false
+toc: true
+number-sections: true
+execute:
+  echo: true
+  warning: false
+format:
+  html:
+    code-fold: false
+    code-summary: "Mostrar/ocultar código"
+    code-tools: true
+---
+
+## Introducción
+
+Durante [Khipu 2024](https://khipu.ai/), tuve la oportunidad de participar en el taller de **[Machine Learning Geoespacial](https://github.com/khipu-ai/practicals-2025/blob/main/notebooks/Geospatial_Machine_Learning.ipynb)**, una experiencia que me permitió una mayor comprensión sobre cómo  combinar imágenes satelitales con técnicas de ML para proponer soluciones a problemas de agricultura en Latinoamérica.
+
+En el taller se desarrollo un caso práctico de clasificación de tipos de cultivos usando imágenes Sentinel-2 de distintas regiones de Chile.
+
+En este post, compartiré los temas desarrollados, algunos aprendizajes y links útiles para continuar aprendiendo sobre Machine learning geoespacial.
+
+![Agricultura vista desde el espacio](https://images.unsplash.com/photo-1574482620811-1aa16ffe3c82?w=800)
+
+::: {.callout-important}
+## Objetivo del tutorial
+
+Desarrollar un pipeline completo de ML geoespacial para:
+1. Obtener y procesar imágenes satelitales Sentinel-2
+2. Extraer características espectrales y temporales
+3. Entrenar un modelo de clasificación de cultivos
+4. Validar resultados considerando la naturaleza espacial de los datos
+:::
+
+## ¿Por qué es importante el ML geoespacial para Latinoamérica?
+
+Nuestra región enfrenta desafíos únicos que pueden beneficiarse enormemente del análisis satelital:
+
+- **Seguridad alimentaria**: Monitorear la producción agrícola y predecir rendimientos
+- **Cambio climático**: Evaluar el impacto de sequías e inundaciones
+- **Gestión de recursos**: Optimizar el uso del agua y detectar cambios en el uso del suelo
+- **Políticas públicas**: Proporcionar datos objetivos para la toma de decisiones
+
+## Mejores prácticas aprendidas
+
+### 1. **Calidad de datos de entrenamiento**
+- Los datos de campo son cruciales
+- Verificar la distribución temporal de las muestras
+- Considerar el desbalance de clases
+
+### 2. **Feature engineering geoespacial**
+- Los índices espectrales capturan información clave
+- Las características temporales son esenciales para diferenciar cultivos
+- Considerar la fenología de cada cultivo
+
+### 3. **Validación apropiada**
+- Siempre usar validación espacial
+- Considerar la variabilidad temporal
+- Evaluar en áreas completamente nuevas
+
+### 4. **Escalabilidad**
+- Google Earth Engine para procesamiento masivo
+- Modelos eficientes para grandes áreas
+- Considerar el balance entre precisión y velocidad
+
+## Recursos y próximos pasos
+
+### 📚 Para profundizar
+- [Documentación de Earth Engine](https://developers.google.com/earth-engine)
+- [Awesome Earth Observation](https://github.com/chrieke/awesome-earth-observation-code)
+- [Guía de ML para teledetección](https://www.mdpi.com/2072-4292/12/10/1634)
+
+### 🛠️ Herramientas recomendadas
+- **eo-learn**: Framework de Python para ML en observación terrestre
+- **SITS**: Análisis de series temporales satelitales
+- **sen2cor**: Corrección atmosférica para Sentinel-2
+
+### 🎯 Proyectos sugeridos
+1. Adaptar el código para tu región de interés
+2. Experimentar con diferentes algoritmos (XGBoost, redes neuronales)
+3. Incorporar datos de radar (Sentinel-1) para mejorar la clasificación
+4. Crear un dashboard interactivo con los resultados
+
+## Conclusión
+
+El taller de ML Geoespacial en Khipu 2024 me mostró el enorme potencial de estas tecnologías para abordar desafíos agrícolas en Latinoamérica. Con datos abiertos como Sentinel-2 y herramientas como Google Earth Engine, podemos desarrollar soluciones escalables y de impacto real.
+
+Lo más importante que aprendí es que el ML geoespacial no es solo sobre algoritmos, sino sobre entender el contexto: la fenología de los cultivos, los patrones climáticos locales y las necesidades específicas de nuestra región.
+
+::: {.callout-note appearance="simple" icon=false}
+**¿Te interesa el ML geoespacial?** Únete a la comunidad de Khipus. Comparte tus proyectos y experiencias usando #KhipuAI #MLGeoespacial
+:::
+
+---
+
+*Este post está basado en el taller práctico de Geospatial Machine Learning impartido en Khipu 2025. Agradecimientos especiales a los instructores y participantes que hicieron posible esta experiencia de aprendizaje.*

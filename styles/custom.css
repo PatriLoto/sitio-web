@@ -1,0 +1,59 @@
+// Estilos para la página de listado de posts
+.quarto-listing {
+  .listing-item {
+    border-bottom: 1px solid #e9ecef;
+    padding-bottom: 1.5rem;
+    margin-bottom: 1.5rem;
+    
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+  
+  .listing-categories {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+    
+    .listing-category {
+      background-color: #007bff;
+      color: white;
+      padding: 0.2rem 0.6rem;
+      border-radius: 0.25rem;
+      font-size: 0.875rem;
+      text-decoration: none;
+      
+      &:hover {
+        background-color: #0056b3;
+      }
+    }
+  }
+  
+  .listing-image {
+    border-radius: 0.5rem;
+    overflow: hidden;
+    margin-bottom: 1rem;
+  }
+}
+
+// Estilos para posts individuales
+.quarto-post {
+  .post-header {
+    margin-bottom: 2rem;
+    
+    .post-categories {
+      display: flex;
+      gap: 0.5rem;
+      margin: 1rem 0;
+      
+      .category {
+        background-color: #6c757d;
+        color: white;
+        padding: 0.25rem 0.75rem;
+        border-radius: 1rem;
+        font-size: 0.875rem;
+      }
+    }
+  }
+}

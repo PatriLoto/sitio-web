@@ -1,0 +1,37 @@
+# Configuración por defecto para todos los posts
+# Coloca este archivo en: posts/_metadata.yml
+
+# Información del autor
+author: "Patricia A. Loto"  # Cambia esto por tu nombre
+
+# Formato de fecha en español
+date-format: "D [de] MMMM, YYYY"
+lang: es
+
+# Tabla de contenidos
+toc: true
+toc-depth: 2
+toc-title: "Contenido"
+
+# Funcionalidades adicionales
+comments: false  # Cambiar a true si quieres habilitar comentarios (requiere configuración adicional)
+citation: false   # Permite citar tu post
+search: true     # Incluir en búsquedas del sitio
+
+# Layout
+page-layout: article
+
+# Compartir en redes sociales
+share: [linkedin]
+
+# Opciones de lectura
+reading-time: true
+lightbox: true  # Para imágenes ampliables
+
+# Formato de salida
+format:
+  html:
+    anchor-sections: true
+    code-fold: true
+    code-summary: "Mostrar código"
+    code-tools: true
