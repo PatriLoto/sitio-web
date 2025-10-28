@@ -1,87 +1,73 @@
 [
   {
-    "objectID": "posts/post_khipu.html",
-    "href": "posts/post_khipu.html",
-    "title": "Mi experiencia en Khipu 2025: Inteligencia Artificial desde una perspectiva latinoamericana",
+    "objectID": "posts/post_rsecon25.html",
+    "href": "posts/post_rsecon25.html",
+    "title": "RSECon25: Mi primera experiencia en la conferencia de Research Software Engineering",
     "section": "",
-    "text": "Este marzo tuve el privilegio de asistir a la Khipu 2025, el encuentro latinoamericano de Inteligencia Artificial más importante de nuestra región. Fueron días intensos de aprendizaje, networking y, sobre todo, de reafirmar que Latinoamérica tiene mucho que aportar al mundo de la IA.\n\n\n\nComunidad Khipu\n\n\n\n\n\n\n\n\n¿Qué es Khipu?\n\n\n\nKhipu es más que una conferencia: es un movimiento que busca fortalecer la comunidad de machine learning e IA en Latinoamérica, ofreciendo formación en temas avanzados y creando oportunidades de colaboración entre investigadores de la región y la comunidad internacional."
+    "text": "Research Software Engineering (RSE) es una disciplina que combina la experiencia profesional en ingeniería de software con un profundo conocimiento de la investigación científica. Los RSEs son aquellos profesionales que desarrollan y mantienen el software que hace posible la investigación moderna en todas las disciplinas.\n\n\n\nConferencia RSE"
   },
   {
-    "objectID": "posts/post_khipu.html#una-experiencia-transformadora",
-    "href": "posts/post_khipu.html#una-experiencia-transformadora",
-    "title": "Mi experiencia en Khipu 2025: Inteligencia Artificial desde una perspectiva latinoamericana",
+    "objectID": "posts/post_rsecon25.html#qué-es-rse",
+    "href": "posts/post_rsecon25.html#qué-es-rse",
+    "title": "RSECon25: Mi primera experiencia en la conferencia de Research Software Engineering",
     "section": "",
-    "text": "Este marzo tuve el privilegio de asistir a la Khipu 2025, el encuentro latinoamericano de Inteligencia Artificial más importante de nuestra región. Fueron días intensos de aprendizaje, networking y, sobre todo, de reafirmar que Latinoamérica tiene mucho que aportar al mundo de la IA.\n\n\n\nComunidad Khipu\n\n\n\n\n\n\n\n\n¿Qué es Khipu?\n\n\n\nKhipu es más que una conferencia: es un movimiento que busca fortalecer la comunidad de machine learning e IA en Latinoamérica, ofreciendo formación en temas avanzados y creando oportunidades de colaboración entre investigadores de la región y la comunidad internacional."
+    "text": "Research Software Engineering (RSE) es una disciplina que combina la experiencia profesional en ingeniería de software con un profundo conocimiento de la investigación científica. Los RSEs son aquellos profesionales que desarrollan y mantienen el software que hace posible la investigación moderna en todas las disciplinas.\n\n\n\nConferencia RSE"
   },
   {
-    "objectID": "posts/post_khipu.html#los-talleres-que-marcaron-mi-experiencia",
-    "href": "posts/post_khipu.html#los-talleres-que-marcaron-mi-experiencia",
-    "title": "Mi experiencia en Khipu 2025: Inteligencia Artificial desde una perspectiva latinoamericana",
-    "section": "2 Los talleres que marcaron mi experiencia",
-    "text": "2 Los talleres que marcaron mi experiencia\nDurante el evento, participé en dos talleres prácticos que me dieron perspectivas únicas sobre cómo abordar la IA desde nuestra realidad latinoamericana.\n\n2.1 🌍 Evaluación Socio-Cultural de la IA\nUno de los talleres más reveladores fue el de Socio-Cultural Evaluation of AI. Este taller me abrió los ojos sobre algo fundamental: los sistemas de IA no son neutrales, reflejan y amplifican los sesgos culturales presentes en sus datos de entrenamiento.\n\n2.1.1 Lo que aprendí\nDurante el taller:\n\nAnalizamos sesgos en modelos de lenguaje: Descubrimos cómo los LLMs pueden perpetuar estereotipos sobre nuestras culturas latinoamericanas.\nExploramos benchmarks culturalmente situados: Trabajamos con herramientas como SeeGULL y HESEIA, diseñadas específicamente para evaluar sesgos desde diferentes perspectivas culturales.\nExperimentamos como anotadores: Una actividad particularmente impactante fue ponernos en el rol de crowdworkers para entender cómo las decisiones de anotación moldean los resultados de la IA.\n\n\n\n\n\n\n\nReflexión clave\n\n\n\nLo más valioso fue entender que necesitamos desarrollar nuestras propias métricas y benchmarks que reflejen la diversidad cultural latinoamericana, no simplemente importar estándares del norte global.\n\n\n\n\n\n2.2 🛰️ Machine Learning Geoespacial\nEl segundo taller, Geospatial Machine Learning, fue una inmersión práctica en el uso de ML para resolver problemas reales de nuestra región.\n\n2.2.1 El desafío: Mapear la agricultura chilena\nEl objetivo era clasificar tipos de cultivos a nivel de granja en Chile usando imágenes satelitales Sentinel-2. Este tipo de aplicaciones son cruciales para:\n\n🌱 Seguridad alimentaria\n💧 Gestión de recursos hídricos\n\n🌡️ Adaptación al cambio climático\n📊 Políticas públicas basadas en datos\n\n# Ejemplo conceptual del flujo de trabajo\nimport ee  # Google Earth Engine\nimport pandas as pd\nimport numpy as np\nfrom sklearn.ensemble import RandomForestClassifier\n\n# Inicializar Earth Engine\nee.Initialize()\n\n# Definir área de interés (Chile central)\naoi = ee.Geometry.Rectangle([-71.5, -34.0, -70.0, -32.5])\n\n# Obtener imágenes Sentinel-2\nsentinel = ee.ImageCollection('COPERNICUS/S2_SR') \\\n    .filterBounds(aoi) \\\n    .filterDate('2023-01-01', '2023-12-31') \\\n    .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', 20))\n\n# Calcular índices vegetacionales\ndef add_indices(image):\n    ndvi = image.normalizedDifference(['B8', 'B4']).rename('NDVI')\n    ndwi = image.normalizedDifference(['B3', 'B8']).rename('NDWI')\n    return image.addBands([ndvi, ndwi])\n\n# Aplicar a la colección\nsentinel_with_indices = sentinel.map(add_indices)\n\n\n2.2.2 Aprendizajes técnicos\n\nPreprocesamiento de datos satelitales: Aprendí sobre corrección atmosférica, manejo de nubes y composición temporal.\nFeature engineering geoespacial: Creación de índices espectrales (NDVI, NDWI, EVI) y características temporales.\nValidación espacial: La importancia de considerar la autocorrelación espacial en la evaluación de modelos.\n\n\n\n\n\n\n\nHerramientas clave\n\n\n\n\nGoogle Earth Engine: Para procesamiento masivo de imágenes satelitales\nGeoPandas: Manejo de datos vectoriales\nRasterio: Lectura y escritura de datos raster\nscikit-learn: Modelos de ML adaptados al contexto geoespacial"
+    "objectID": "posts/post_rsecon25.html#mi-experiencia-en-la-rsecon25",
+    "href": "posts/post_rsecon25.html#mi-experiencia-en-la-rsecon25",
+    "title": "RSECon25: Mi primera experiencia en la conferencia de Research Software Engineering",
+    "section": "Mi experiencia en la RSECon25",
+    "text": "Mi experiencia en la RSECon25\nDel 9 al 11 de septiembre de 2025, tuve la oportunidad de participar en la RSECon25, la novena conferencia anual de la Society of Research Software Engineering, celebrada en la University of Warwick, Coventry, Reino Unido.\n\n\n\n\n\n\nDatos del evento\n\n\n\n\nAproximadamente 434 participantes entre asistentes presenciales y asistentes de forma remota\n60 charlas, talleres y sesiones BoF (Birds of a Feather)\n23 pósters presentados\nMúltiples eventos sociales y de networking\n\n\n\n\nTemas principales\nLa conferencia giró en torno a dos temas complementarios:\n\nRSE and Research Excellence: Cómo el trabajo de los RSEs permite la excelencia en la investigación mediante expertise técnica y buenas prácticas de codificación.\nRSE as Digital Research Infrastructure (DRI): Reconociendo a los RSEs como infraestructura digital humana esencial para la investigación moderna."
   },
   {
-    "objectID": "posts/post_khipu.html#conexiones-y-comunidad",
-    "href": "posts/post_khipu.html#conexiones-y-comunidad",
-    "title": "Mi experiencia en Khipu 2025: Inteligencia Artificial desde una perspectiva latinoamericana",
-    "section": "3 Conexiones y comunidad",
-    "text": "3 Conexiones y comunidad\nMás allá de lo técnico, Khipu fue un espacio de conexión humana. Conocí a:\n\nInvestigadores trabajando en problemas similares en diferentes países\nEstudiantes con ideas frescas y ganas de cambiar el mundo\nProfesionales de la industria buscando aplicar IA de manera responsable\n\n\n3.1 La red Khipu\nUna de las iniciativas más valiosas es KHIPUx, que busca replicar el espíritu de Khipu a escala local en diferentes países. Esto permite que más personas accedan a formación de calidad sin necesidad de viajar."
+    "objectID": "posts/post_rsecon25.html#highlights-de-la-conferencia",
+    "href": "posts/post_rsecon25.html#highlights-de-la-conferencia",
+    "title": "RSECon25: Mi primera experiencia en la conferencia de Research Software Engineering",
+    "section": "Highlights de la conferencia",
+    "text": "Highlights de la conferencia\n\n🎤 Keynote destacada\nAmanda Brock, CEO de OpenUK, abrió la conferencia con una charla sobre el papel del software open source en la investigación y la importancia de comunidades como la RSE.\n\n\n🤖 Retrieval Augmented Generation (RAG)\nUna de las charlas que más llamó mi atención fue sobre RAG en investigación. Con el auge de los LLMs, aprender cómo implementar sistemas RAG de manera efectiva para mejorar la precisión y confiabilidad de las respuestas generadas por IA en contextos de investigación fue invaluable. Se discutieron casos de uso prácticos, desde asistentes de documentación hasta sistemas de búsqueda en literatura científica.\n\n\n👥 The Research Software Analyst Role\nEste rol emergente combina análisis funcional, desarrollo de software y comprensión del dominio científico. La charla exploró:\n\nHabilidades clave necesarias\nTrayectorias profesionales\nCasos de éxito en diferentes instituciones\n\nY me dió una nueva perspectiva sobre la evolución de nuestra profesión y las oportunidades de especialización.\n\n\n🌈 Workshop: Improving Diversity in RSE\nEl workshop “Improving Diversity in RSE” fue uno de los más impactantes. Trabajamos en: - Identificar barreras sistémicas en la comunidad RSE - Estrategias concretas para crear ambientes más inclusivos - Construir mentorías efectivas para grupos subrepresentados\nLas discusiones fueron honestas y constructivas, con compromisos tangibles para mejorar la diversidad en nuestros equipos.\n\n\n🌱 Green RSE Award\nPor primera vez se otorgó el Green RSE Award, patrocinado por el Software Sustainability Institute, reconociendo contribuciones a la sostenibilidad ambiental en software de investigación. Un recordatorio importante de que debemos considerar el impacto ambiental de nuestro código.\n\n\n🤝 Networking y comunidad\nLo más valioso fue conectar con RSEs de todo el mundo: - Compartir desafíos comunes independientemente del campo de investigación - Aprender nuevas herramientas y metodologías - Establecer colaboraciones futuras"
   },
   {
-    "objectID": "posts/post_khipu.html#reflexiones-finales-ia-con-identidad-latinoamericana",
-    "href": "posts/post_khipu.html#reflexiones-finales-ia-con-identidad-latinoamericana",
-    "title": "Mi experiencia en Khipu 2025: Inteligencia Artificial desde una perspectiva latinoamericana",
-    "section": "4 Reflexiones finales: IA con identidad latinoamericana",
-    "text": "4 Reflexiones finales: IA con identidad latinoamericana\nMi experiencia en Khipu 2025 reforzó tres convicciones:\n\n4.1 1. Necesitamos IA contextualizada\nNo podemos simplemente importar soluciones. Nuestros problemas requieren enfoques que consideren: - Nuestra diversidad lingüística (español, portugués, lenguas indígenas) - Nuestras realidades socioeconómicas - Nuestros desafíos únicos (informalidad, brechas digitales, etc.)\n\n\n4.2 2. La colaboración regional es clave\nLos problemas que enfrentamos trascienden fronteras: - Cambio climático en los Andes - Deforestación en la Amazonía - Migración y movilidad urbana - Inclusión financiera\n\n\n4.3 3. Podemos liderar en IA responsable\nTenemos la oportunidad de desarrollar IA de manera diferente: - Priorizando la inclusión desde el diseño - Considerando el impacto social desde el inicio - Valorando el conocimiento local y tradicional"
+    "objectID": "posts/post_rsecon25.html#próxima-edición-rsecon26-en-sheffield",
+    "href": "posts/post_rsecon25.html#próxima-edición-rsecon26-en-sheffield",
+    "title": "RSECon25: Mi primera experiencia en la conferencia de Research Software Engineering",
+    "section": "Próxima edición: RSECon26 en Sheffield",
+    "text": "Próxima edición: RSECon26 en Sheffield\n\n\n\n\n\n\n¡Reserva la fecha!\n\n\n\nRSECon26 se celebrará del 9 al 11 de septiembre de 2026 en la University of Sheffield.\nSerá la décima conferencia presencial de la sociedad, así que esperan celebraciones especiales."
   },
   {
-    "objectID": "posts/post_khipu.html#recursos-y-próximos-pasos",
-    "href": "posts/post_khipu.html#recursos-y-próximos-pasos",
-    "title": "Mi experiencia en Khipu 2025: Inteligencia Artificial desde una perspectiva latinoamericana",
-    "section": "5 Recursos y próximos pasos",
-    "text": "5 Recursos y próximos pasos\nPara quienes quieran profundizar:\n\n5.1 📚 Repositorios de Khipu\n\nPracticals 2025\nRecursos globales\n\n\n\n5.2 🎯 Cómo involucrarse\n\nÚnete a la comunidad: Sigue @Khipu_AI\nParticipa en KHIPUx: Organiza o asiste a eventos locales\nContribuye: Comparte tus proyectos y aprendizajes\n\n\n\n5.3 💡 Proyectos inspirados\nDesde mi regreso, estoy trabajando en: - Un dataset de imágenes satelitales para monitoreo agrícola en Argentina - Herramientas para evaluar sesgos en modelos de lenguaje en español - Colaboraciones con otros participantes de Khipu"
+    "objectID": "posts/post_rsecon25.html#por-qué-participar-en-la-comunidad-rse",
+    "href": "posts/post_rsecon25.html#por-qué-participar-en-la-comunidad-rse",
+    "title": "RSECon25: Mi primera experiencia en la conferencia de Research Software Engineering",
+    "section": "¿Por qué participar en la comunidad RSE?",
+    "text": "¿Por qué participar en la comunidad RSE?\nDespués de mi experiencia, estas son mis razones para involucrarse:\n\nReconocimiento profesional: La conferencia valida el trabajo crucial que hacen los RSEs\nDesarrollo de habilidades: Acceso a talleres y charlas de vanguardia\nComunidad global: Red de apoyo con profesionales de distintas regiones geográficas enfrentando desafíos similares"
   },
   {
-    "objectID": "posts/post_khipu.html#agradecimientos",
-    "href": "posts/post_khipu.html#agradecimientos",
-    "title": "Mi experiencia en Khipu 2025: Inteligencia Artificial desde una perspectiva latinoamericana",
-    "section": "6 Agradecimientos",
-    "text": "6 Agradecimientos\nGracias a los organizadores de Khipu por crear este espacio único, a los instructores de los talleres por compartir su conocimiento, y a todos los participantes por las conversaciones enriquecedoras.\n\n\n\n\n\n\n¿Participaste en Khipu o te interesa la IA latinoamericana? Me encantaría conocer tu experiencia y proyectos. ¡Conectemos!\n\n\n\n\nEste post es parte de mi compromiso de compartir conocimiento y fortalecer la comunidad de IA en Latinoamérica. Si te resultó útil, compártelo con otros que puedan estar interesados."
+    "objectID": "posts/post_rsecon25.html#recursos-para-comenzar",
+    "href": "posts/post_rsecon25.html#recursos-para-comenzar",
+    "title": "RSECon25: Mi primera experiencia en la conferencia de Research Software Engineering",
+    "section": "Recursos para comenzar",
+    "text": "Recursos para comenzar\nSi te interesa la comunidad RSE:\n\n🌐 Web oficial: society-rse.org\n📅 International RSE Day: 9 de octubre de cada año\n🌍 Grupos regionales: Desde principios de año se inaguró uno en Chile y próximamente se abrirá uno en Argentina.\n\n\nPara Latinoamérica\nAunque la conferencia está principalmente centrada en UK, hay interés creciente en establecer comunidades RSE en Latinoamérica. Si te interesa:\n\nÚnete al Slack de la Society of RSE, hay un grupo para personas hispanohablantes que trabajan como RSE\nParticipa remotamente en próximas conferencias"
   },
   {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "Acerca de mí",
+    "objectID": "posts/post_rsecon25.html#reflexión-final",
+    "href": "posts/post_rsecon25.html#reflexión-final",
+    "title": "RSECon25: Mi primera experiencia en la conferencia de Research Software Engineering",
+    "section": "Reflexión final",
+    "text": "Reflexión final\nRSECon25 me mostró que existe una comunidad vibrante y acogedora lista para compartir conocimiento y experiencias.\nYa sea que te identifiques como RSE, seas un investigador que programa, o un ingeniero de software trabajando en investigación, esta comunidad tiene algo valioso que ofrecerte.\n\n\n\n\n\n\nMi consejo\n\n\n\nSi tienes la oportunidad de asistir a la RSECon26 en Sheffield, ¡no lo dudes!\n\n\n\n¿Ocupas este rol en tu equipo de trabajo? ¿Te interesa el software de investigación? Me encantaría conocer tu experiencia. ¡Conectemos: mandame un correo o un mensaje por LinkedIn!"
+  },
+  {
+    "objectID": "posts/index.html",
+    "href": "posts/index.html",
+    "title": "Blog",
     "section": "",
-    "text": "Soy Licenciada en Sistemas de Información(UNNE) y Diplomada en Ciencias de Datos, Aprendizaje Automático y sus Aplicaciones por la FAMAF de la Universidad Nacional de Córdoba. Actualemente, estoy cursando una maestría en Tecnologías de la Información en UNNE."
+    "text": "¡Bienvenidos a mi blog! Aquí encontrarás artículos sobre mis proyectos, aprendizajes y pensamientos sobre R, ingeniería del software, eventos de tecnología y construcción de comunidad."
   },
   {
-    "objectID": "about.html#educación",
-    "href": "about.html#educación",
-    "title": "Acerca de mí",
-    "section": "",
-    "text": "Soy Licenciada en Sistemas de Información(UNNE) y Diplomada en Ciencias de Datos, Aprendizaje Automático y sus Aplicaciones por la FAMAF de la Universidad Nacional de Córdoba. Actualemente, estoy cursando una maestría en Tecnologías de la Información en UNNE."
-  },
-  {
-    "objectID": "about.html#experiencia",
-    "href": "about.html#experiencia",
-    "title": "Acerca de mí",
-    "section": "Experiencia",
-    "text": "Experiencia\nGobierno: Trabajo desarrollando soluciones digitales con Genexus y Sql en una entidad de gobierno de la Prov. del Chaco., donde algunas de mis funciones son relevar las necesidades de los usuarios, diseñar y desarrollas un sistema que satisfaga las necesidades relevadas y redactar documentación técnica. También capacito a los nuevos integrantes para que puedan aportar valor al equipo.\nOrganización sin fines de Lucro: Desde el 2021 hasta principios del 2025, formé parte activa del equipo de accesibilidad en Metadocencia, donde trabajamos incansablemente para promover una educación inclusiva y accesible para todos. En el 2023 me incorporé al equipo de Comunidad, donde trabajé en el proyecto mapeo de comunidades, eventos y recursos de ciencia abierta, partir del 2024 dicté el módulo de Código Abierto de las cohortes de formación virtual ALTaCA (América Latina Transforma a la Ciencia Abierta). Actualmente, soy parte del parte Polen.\nMis credenciales reflejan mi compromiso con la educación y el empoderamiento a través de la tecnología e incluyen la certificación como:\n\nInstructora por The Carpentries,\nInstructora de tidyverse por Rstudio,\nFundamentos de Construcción de comunidades científicas."
-  },
-  {
-    "objectID": "about.html#comunidades",
-    "href": "about.html#comunidades",
-    "title": "Acerca de mí",
-    "section": "Comunidades",
-    "text": "Comunidades\nParticipo activamente de distintas comunidades promoviendo la accesibilidad y la enseñanza de R, tales como R-Ladies, Latin-R y The Turing Way. También colaboré con OLS, primero participé como mentee de la cohorte nro. 7 del Programa de mentoreo y entrenamiento Open Seeds dictado por la increíble comunidad Open Life Science (OLS). Esta experiencia fue fundamental ya que me proporciono conocimientos sólidos y experiencias valiosas sobre gestión de proyectos, trabajo colaborativo, datos y licencias abiertas y construcción de comunidades de prácticas. Finalmente, fui mentora del proyecto PsychGIGA en la cohorte nro. 8 (OLS-8), donde colaboré y apoyé a los mentees en diferente acivitidades (como la definición de una hoja de ruta, la elaboración de un canvas del proyecto, los conecté con expertos en temas de licenciamiento, entre otras), como así también los guíe en la toma de decisiones."
-  },
-  {
-    "objectID": "about.html#proyectos",
-    "href": "about.html#proyectos",
-    "title": "Acerca de mí",
-    "section": "Proyectos",
-    "text": "Proyectos\nActuales:\n\nAsistente Virtual como apoyo a la implementación de prácticas de Ciencia Abierta en Latinoamérica\nTemplate para elaborar un plan de gestión de software\n\nProyectos anteriores :\n\nMapeo de Comunidades\nALTa Ciencia Abierta\nDetermining Climate Risks with NASA Earthdata Cloud"
+    "objectID": "posts/index.html#posts-recientes",
+    "href": "posts/index.html#posts-recientes",
+    "title": "Blog",
+    "section": "📝 Posts Recientes",
+    "text": "📝 Posts Recientes"
   },
   {
     "objectID": "about_english.html",
@@ -126,17 +112,87 @@
     "text": "Projects\nEn estos momentos contribuyo con los siguientes proyectos: * Mapeo de Comunidades * ALTa Ciencia Abierta * Determining Climate Risks with NASA Earthdata Cloud"
   },
   {
-    "objectID": "posts/index.html",
-    "href": "posts/index.html",
-    "title": "Blog",
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "Acerca de mí",
     "section": "",
-    "text": "¡Bienvenidos a mi blog! Aquí encontrarás artículos sobre mis proyectos, aprendizajes y pensamientos sobre R, ingeniería del software, eventos de tecnología y construcción de comunidad."
+    "text": "Soy Licenciada en Sistemas de Información(UNNE) y Diplomada en Ciencias de Datos, Aprendizaje Automático y sus Aplicaciones por la FAMAF de la Universidad Nacional de Córdoba. Actualemente, estoy cursando una maestría en Tecnologías de la Información en UNNE."
   },
   {
-    "objectID": "posts/index.html#posts-recientes",
-    "href": "posts/index.html#posts-recientes",
-    "title": "Blog",
-    "section": "📝 Posts Recientes",
-    "text": "📝 Posts Recientes"
+    "objectID": "about.html#educación",
+    "href": "about.html#educación",
+    "title": "Acerca de mí",
+    "section": "",
+    "text": "Soy Licenciada en Sistemas de Información(UNNE) y Diplomada en Ciencias de Datos, Aprendizaje Automático y sus Aplicaciones por la FAMAF de la Universidad Nacional de Córdoba. Actualemente, estoy cursando una maestría en Tecnologías de la Información en UNNE."
+  },
+  {
+    "objectID": "about.html#experiencia",
+    "href": "about.html#experiencia",
+    "title": "Acerca de mí",
+    "section": "Experiencia",
+    "text": "Experiencia\nGobierno: Trabajo desarrollando soluciones digitales con Genexus y Sql en una entidad de gobierno de la Prov. del Chaco., donde algunas de mis funciones son relevar las necesidades de los usuarios, diseñar y desarrollas un sistema que satisfaga las necesidades relevadas y redactar documentación técnica. También capacito a los nuevos integrantes para que puedan aportar valor al equipo.\nOrganización sin fines de Lucro: Desde el 2021 hasta principios del 2025, formé parte activa del equipo de accesibilidad en Metadocencia, donde trabajamos incansablemente para promover una educación inclusiva y accesible para todos. En el 2023 me incorporé al equipo de Comunidad, donde trabajé en el proyecto mapeo de comunidades, eventos y recursos de ciencia abierta, partir del 2024 dicté el módulo de Código Abierto de las cohortes de formación virtual ALTaCA (América Latina Transforma a la Ciencia Abierta). Actualmente, soy parte del parte Polen.\nMis credenciales reflejan mi compromiso con la educación y el empoderamiento a través de la tecnología e incluyen la certificación como:\n\nInstructora por The Carpentries,\nInstructora de tidyverse por Rstudio,\nFundamentos de Construcción de comunidades científicas."
+  },
+  {
+    "objectID": "about.html#comunidades",
+    "href": "about.html#comunidades",
+    "title": "Acerca de mí",
+    "section": "Comunidades",
+    "text": "Comunidades\nParticipo activamente de distintas comunidades promoviendo la accesibilidad y la enseñanza de R, tales como R-Ladies, Latin-R y The Turing Way. También colaboré con OLS, primero participé como mentee de la cohorte nro. 7 del Programa de mentoreo y entrenamiento Open Seeds dictado por la increíble comunidad Open Life Science (OLS). Esta experiencia fue fundamental ya que me proporciono conocimientos sólidos y experiencias valiosas sobre gestión de proyectos, trabajo colaborativo, datos y licencias abiertas y construcción de comunidades de prácticas. Finalmente, fui mentora del proyecto PsychGIGA en la cohorte nro. 8 (OLS-8), donde colaboré y apoyé a los mentees en diferente acivitidades (como la definición de una hoja de ruta, la elaboración de un canvas del proyecto, los conecté con expertos en temas de licenciamiento, entre otras), como así también los guíe en la toma de decisiones."
+  },
+  {
+    "objectID": "about.html#proyectos",
+    "href": "about.html#proyectos",
+    "title": "Acerca de mí",
+    "section": "Proyectos",
+    "text": "Proyectos\nActuales:\n\nAsistente Virtual como apoyo a la implementación de prácticas de Ciencia Abierta en Latinoamérica\nTemplate para elaborar un plan de gestión de software\n\nProyectos anteriores :\n\nMapeo de Comunidades\nALTa Ciencia Abierta\nDetermining Climate Risks with NASA Earthdata Cloud"
+  },
+  {
+    "objectID": "posts/post_khipu.html",
+    "href": "posts/post_khipu.html",
+    "title": "Mi experiencia en Khipu 2025: Inteligencia Artificial desde una perspectiva latinoamericana",
+    "section": "",
+    "text": "Este marzo tuve el privilegio de asistir a la Khipu 2025, el encuentro latinoamericano de Inteligencia Artificial más importante de nuestra región. Fueron días intensos de aprendizaje, networking y, sobre todo, de reafirmar que Latinoamérica tiene mucho que aportar al mundo de la IA.\n\n\n\n\n\n\n¿Qué es Khipu?\n\n\n\nKhipu es más que una conferencia: es un movimiento que busca fortalecer la comunidad de machine learning e IA en Latinoamérica, ofreciendo formación en temas avanzados y creando oportunidades de colaboración entre investigadores de la región y la comunidad internacional."
+  },
+  {
+    "objectID": "posts/post_khipu.html#una-experiencia-transformadora",
+    "href": "posts/post_khipu.html#una-experiencia-transformadora",
+    "title": "Mi experiencia en Khipu 2025: Inteligencia Artificial desde una perspectiva latinoamericana",
+    "section": "",
+    "text": "Este marzo tuve el privilegio de asistir a la Khipu 2025, el encuentro latinoamericano de Inteligencia Artificial más importante de nuestra región. Fueron días intensos de aprendizaje, networking y, sobre todo, de reafirmar que Latinoamérica tiene mucho que aportar al mundo de la IA.\n\n\n\n\n\n\n¿Qué es Khipu?\n\n\n\nKhipu es más que una conferencia: es un movimiento que busca fortalecer la comunidad de machine learning e IA en Latinoamérica, ofreciendo formación en temas avanzados y creando oportunidades de colaboración entre investigadores de la región y la comunidad internacional."
+  },
+  {
+    "objectID": "posts/post_khipu.html#los-talleres-que-marcaron-mi-experiencia",
+    "href": "posts/post_khipu.html#los-talleres-que-marcaron-mi-experiencia",
+    "title": "Mi experiencia en Khipu 2025: Inteligencia Artificial desde una perspectiva latinoamericana",
+    "section": "2 Los talleres que marcaron mi experiencia",
+    "text": "2 Los talleres que marcaron mi experiencia\nDurante el evento, participé en dos talleres prácticos que me dieron perspectivas únicas sobre cómo abordar la IA desde nuestra realidad latinoamericana.\n\n2.1 🌍 Evaluación Socio-Cultural de la IA\nUno de los talleres más reveladores fue el de Socio-Cultural Evaluation of AI. Este taller me abrió los ojos sobre algo fundamental: los sistemas de IA no son neutrales, reflejan y amplifican los sesgos culturales presentes en sus datos de entrenamiento.\n\n2.1.1 Lo que aprendí\nDurante el taller:\n\nAnalizamos sesgos en modelos de lenguaje: Descubrimos cómo los LLMs pueden perpetuar estereotipos sobre nuestras culturas latinoamericanas.\nExploramos benchmarks culturalmente situados: Trabajamos con herramientas como SeeGULL y HESEIA, diseñadas específicamente para evaluar sesgos desde diferentes perspectivas culturales.\nExperimentamos como anotadores: Una actividad particularmente impactante fue ponernos en el rol de crowdworkers para entender cómo las decisiones de anotación moldean los resultados de la IA.\n\n\n\n\n\n\n\nReflexión clave\n\n\n\nLo más valioso fue entender que necesitamos desarrollar nuestras propias métricas y benchmarks que reflejen la diversidad cultural latinoamericana, no simplemente importar estándares del norte global.\n\n\n\n\n\n2.2 🛰️ Machine Learning Geoespacial\nEl segundo taller, Geospatial Machine Learning, fue una inmersión práctica en el uso de ML para resolver problemas reales de nuestra región.\n\n2.2.1 El desafío: Mapear la agricultura chilena\nEl objetivo era clasificar tipos de cultivos a nivel de granja en Chile usando imágenes satelitales Sentinel-2. Este tipo de aplicaciones son cruciales para:\n\n🌱 Seguridad alimentaria\n💧 Gestión de recursos hídricos\n\n🌡️ Adaptación al cambio climático\n📊 Políticas públicas basadas en datos\n\n# Ejemplo conceptual del flujo de trabajo\nimport ee  # Google Earth Engine\nimport pandas as pd\nimport numpy as np\nfrom sklearn.ensemble import RandomForestClassifier\n\n# Inicializar Earth Engine\nee.Initialize()\n\n# Definir área de interés (Chile central)\naoi = ee.Geometry.Rectangle([-71.5, -34.0, -70.0, -32.5])\n\n# Obtener imágenes Sentinel-2\nsentinel = ee.ImageCollection('COPERNICUS/S2_SR') \\\n    .filterBounds(aoi) \\\n    .filterDate('2023-01-01', '2023-12-31') \\\n    .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', 20))\n\n# Calcular índices vegetacionales\ndef add_indices(image):\n    ndvi = image.normalizedDifference(['B8', 'B4']).rename('NDVI')\n    ndwi = image.normalizedDifference(['B3', 'B8']).rename('NDWI')\n    return image.addBands([ndvi, ndwi])\n\n# Aplicar a la colección\nsentinel_with_indices = sentinel.map(add_indices)\n\n\n2.2.2 Aprendizajes técnicos\n\nPreprocesamiento de datos satelitales: Aprendí sobre corrección atmosférica, manejo de nubes y composición temporal.\nFeature engineering geoespacial: Creación de índices espectrales (NDVI, NDWI, EVI) y características temporales.\nValidación espacial: La importancia de considerar la autocorrelación espacial en la evaluación de modelos.\n\n\n\n\n\n\n\nHerramientas clave\n\n\n\n\nGoogle Earth Engine: Para procesamiento masivo de imágenes satelitales\nGeoPandas: Manejo de datos vectoriales\nRasterio: Lectura y escritura de datos raster\nscikit-learn: Modelos de ML adaptados al contexto geoespacial"
+  },
+  {
+    "objectID": "posts/post_khipu.html#conexiones-y-comunidad",
+    "href": "posts/post_khipu.html#conexiones-y-comunidad",
+    "title": "Mi experiencia en Khipu 2025: Inteligencia Artificial desde una perspectiva latinoamericana",
+    "section": "3 Conexiones y comunidad",
+    "text": "3 Conexiones y comunidad\nMás allá de lo técnico, Khipu fue un espacio de conexión humana. Conocí a:\n\nInvestigadores trabajando en problemas similares en diferentes países\nEstudiantes con ideas frescas y ganas de cambiar el mundo\nProfesionales de la industria buscando aplicar IA de manera responsable\n\n\n3.1 La red Khipu\nUna de las iniciativas más valiosas es KHIPUx, que busca replicar el espíritu de Khipu a escala local en diferentes países. Esto permite que más personas accedan a formación de calidad sin necesidad de viajar."
+  },
+  {
+    "objectID": "posts/post_khipu.html#reflexiones-finales-ia-con-identidad-latinoamericana",
+    "href": "posts/post_khipu.html#reflexiones-finales-ia-con-identidad-latinoamericana",
+    "title": "Mi experiencia en Khipu 2025: Inteligencia Artificial desde una perspectiva latinoamericana",
+    "section": "4 Reflexiones finales: IA con identidad latinoamericana",
+    "text": "4 Reflexiones finales: IA con identidad latinoamericana\nMi experiencia en Khipu 2025 reforzó tres convicciones:\n\n4.1 1. Necesitamos IA contextualizada\nNo podemos simplemente importar soluciones. Nuestros problemas requieren enfoques que consideren: - Nuestra diversidad lingüística (español, portugués, lenguas indígenas) - Nuestras realidades socioeconómicas - Nuestros desafíos únicos (informalidad, brechas digitales, etc.)\n\n\n4.2 2. La colaboración regional es clave\nLos problemas que enfrentamos trascienden fronteras: - Cambio climático en los Andes - Deforestación en la Amazonía - Migración y movilidad urbana - Inclusión financiera\n\n\n4.3 3. Podemos liderar en IA responsable\nTenemos la oportunidad de desarrollar IA de manera diferente: - Priorizando la inclusión desde el diseño - Considerando el impacto social desde el inicio - Valorando el conocimiento local y tradicional"
+  },
+  {
+    "objectID": "posts/post_khipu.html#recursos-y-próximos-pasos",
+    "href": "posts/post_khipu.html#recursos-y-próximos-pasos",
+    "title": "Mi experiencia en Khipu 2025: Inteligencia Artificial desde una perspectiva latinoamericana",
+    "section": "5 Recursos y próximos pasos",
+    "text": "5 Recursos y próximos pasos\nPara quienes quieran profundizar:\n\n5.1 📚 Repositorios de Khipu\n\nPracticals 2025\nRecursos globales\n\n\n\n5.2 🎯 Cómo involucrarse\n\nÚnete a la comunidad: Sigue @Khipu_AI\nParticipa en KHIPUx: Organiza o asiste a eventos locales\nContribuye: Comparte tus proyectos y aprendizajes\n\n\n\n5.3 💡 Proyectos inspirados\nDesde mi regreso, estoy trabajando en: - Un dataset de imágenes satelitales para monitoreo agrícola en Argentina - Herramientas para evaluar sesgos en modelos de lenguaje en español - Colaboraciones con otros participantes de Khipu"
+  },
+  {
+    "objectID": "posts/post_khipu.html#agradecimientos",
+    "href": "posts/post_khipu.html#agradecimientos",
+    "title": "Mi experiencia en Khipu 2025: Inteligencia Artificial desde una perspectiva latinoamericana",
+    "section": "6 Agradecimientos",
+    "text": "6 Agradecimientos\nGracias a los organizadores de Khipu por crear este espacio único, a los instructores de los talleres por compartir su conocimiento, y a todos los participantes por las conversaciones enriquecedoras.\n\n\n\n\n\n\n¿Participaste en Khipu o te interesa la IA latinoamericana? Me encantaría conocer tu experiencia y proyectos. ¡Conectemos!\n\n\n\n\nEste post es parte de mi compromiso de compartir conocimiento y fortalecer la comunidad de IA en Latinoamérica. Si te resultó útil, compártelo con otros que puedan estar interesados."
   }
 ]
