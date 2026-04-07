@@ -18,6 +18,8 @@ website:
         text: "Sobre mí"
       - href: posts
         text: "Blog"                      # Nueva entrada para el blog
+      - href: cv.qmd        # ← agregá esto
+        text: CV
   page-footer:
     center: "Blog hecho con 💜 y [Quarto](https://quarto.org/), por Patricia Loto. Licencia: [CC BY-SA 2.0](https://creativecommons.org/licenses/by-sa/2.0/)."
     
