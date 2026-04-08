@@ -16,8 +16,8 @@ about:
       href: https://github.com/PatriLoto
     - text: LinkedIn
       href: https://www.linkedin.com/in/patricia-loto/
-    - text: Twitter
-      href: https://twitter.com/patriloto
+    - text: ORCID
+      href: https://orcid.org/0000-0003-1849-6916
     - text: Email
       href: mailto:patricia.andrea.loto@gmail.com
 ---

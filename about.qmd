@@ -3,16 +3,15 @@ title: "Acerca de mí"
 ---
 
 ## Educación
-
-Soy Licenciada en Sistemas de Información(UNNE) y Diplomada en Ciencias de Datos, Aprendizaje Automático y sus Aplicaciones por la FAMAF de la Universidad Nacional de Córdoba. Actualemente, estoy cursando una maestría en Tecnologías de la Información en UNNE.
+Soy Licenciada en Sistemas de Información (UNNE) y Diplomada en Ciencias de Datos, Aprendizaje Automático y sus Aplicaciones por la FAMAF de la Universidad Nacional de Córdoba. Actualmente curso la Maestría en Tecnologías de la Información en la UNNE, donde investigo el desarrollo de asistentes virtuales con IA para la difusión de prácticas de Ciencia Abierta en América Latina.
 
 ## Experiencia
 
-Gobierno: Trabajo desarrollando soluciones digitales con Genexus y Sql en una entidad de gobierno de la Prov. del Chaco., donde algunas de mis funciones son relevar las necesidades de los usuarios, diseñar y desarrollas un sistema que satisfaga las necesidades relevadas y redactar documentación técnica. También capacito a los nuevos integrantes para que puedan aportar valor al equipo.
+Sector público: Desarrollo soluciones digitales con GeneXus y SQL en un organismo del gobierno de Chaco. Mis responsabilidades incluyen el relevamiento de necesidades, diseño y desarrollo de sistemas, redacción de documentación técnica y capacitación de nuevos integrantes del equipo.
 
-Organización sin fines de Lucro: Desde el 2021 hasta principios del 2025, formé parte activa del equipo de accesibilidad en Metadocencia, donde trabajamos incansablemente para promover una educación inclusiva y accesible para todos. En el 2023 me incorporé al equipo de Comunidad, donde trabajé en el proyecto [mapeo de comunidades, eventos y recursos de ciencia abierta](https://ciencia-abierta-en-latinoamerica.netlify.app/), partir del 2024 dicté el módulo de Código Abierto de las cohortes de formación virtual ALTaCA (América Latina Transforma a la Ciencia Abierta). Actualmente, soy parte del parte Polen.
+Organizaciones sin fines de lucro: Entre 2021 y 2025 fui parte activa del equipo de MetaDocencia, donde contribuí desde distintos roles: como consultora en accesibilidad digital, como integrante del equipo de Comunidad en el proyecto de [mapeo de comunidades, eventos y recursos de ciencia abierta](https://ciencia-abierta-en-latinoamerica.netlify.app/), y como instructora del [módulo de Código Abierto](https://zenodo.org/records/14047967) en las cohortes ALTaCA (América Latina Transforma a la Ciencia Abierta).
 
-Mis credenciales reflejan mi compromiso con la educación y el empoderamiento a través de la tecnología e incluyen la certificación como:
+Mis certificaciones reflejan mi compromiso con la educación y el empoderamiento a través de la tecnología:
 
 -   [Instructora por The Carpentries](https://carpentries.org/instructors/),
 
@@ -22,7 +21,10 @@ Mis credenciales reflejan mi compromiso con la educación y el empoderamiento a 
 
 ## Comunidades
 
-Participo activamente de distintas comunidades promoviendo la accesibilidad y la enseñanza de R, tales como R-Ladies, [Latin-R](https://latin-r.com/sobre/equipo/) y [The Turing Way](https://the-turing-way.netlify.app/index.html). También colaboré con OLS, primero participé como mentee de la [cohorte nro. 7](https://openlifesci.org/openseeds/ols-7/projects-participants.html) del Programa de mentoreo y entrenamiento Open Seeds dictado por la increíble comunidad [Open Life Science (OLS)](https://openlifesci.org/). Esta experiencia fue fundamental ya que me proporciono conocimientos sólidos y experiencias valiosas sobre gestión de proyectos, trabajo colaborativo, datos y licencias abiertas y construcción de comunidades de prácticas. Finalmente, fui mentora del proyecto [PsychGIGA](https://github.com/vskentrou/PsychGIGA/issues/3) en la cohorte nro. 8 (OLS-8), donde colaboré y apoyé a los mentees en diferente acivitidades (como la definición de una hoja de ruta, la elaboración de un canvas del proyecto, los conecté con expertos en temas de licenciamiento, entre otras), como así también los guíe en la toma de decisiones.
+Soy co-fundadora y co-organizadora de [RSE Argentina](https://rse-argentina.github.io/), la comunidad de Ingeniería de Software de Investigación en Argentina, donde trabajamos para visibilizar y fortalecer el rol del software en la ciencia.
+También participo activamente en R-Ladies Resistencia-Corrientes, [Latin-R](https://latin-r.com/sobre/equipo/) y The Turing Way, promoviendo la enseñanza de R y las prácticas de ciencia abierta en la región.
+Colaboré con [Open Life Science (OLS)](https://openlifesci.org/) como mentee en la [cohorte nro. 7](https://openlifesci.org/openseeds/ols-7/projects-participants.html) del programa Open Seeds —experiencia que me dio bases sólidas en gestión de proyectos abiertos, datos abiertos y construcción de comunidades— y luego como mentora del proyecto [PsychGIGA](https://github.com/vskentrou/PsychGIGA/issues/3) en la cohorte 8.
+
 
 ## Proyectos
 
