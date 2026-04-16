@@ -1,0 +1,49 @@
+# Configuración actualizada para _quarto.yml
+
+project:
+  type: website
+  output-dir: _site
+  resources:
+    - display-options.css    
+    - display-options.js     
+
+website:
+  title: "Patricia Andrea Loto"
+  description: "Sitio personal y blog sobre tecnología, el uso de R y ciencia de datos"
+ 
+ # Navegación principal
+  navbar:
+    background: primary
+    left:
+      - href: index.qmd
+        text: Inicio
+      - href: about.qmd
+        text: "Sobre mí"
+      - href: posts
+        text: "Blog"                      # Nueva entrada para el blog
+      - href: cv.qmd        # ← agregá esto
+        text: CV
+  page-footer:
+    center: "Blog hecho con 💜 y [Quarto](https://quarto.org/), por Patricia Loto. Licencia: [CC BY-SA 2.0](https://creativecommons.org/licenses/by-sa/2.0/)."
+    
+format:
+  html:
+    theme:
+      light: lux
+      dark: darkly
+    css: 
+      - styles/custom.css
+      - styles/posts.css  # Estilos para el blog
+    toc: true
+    toc-depth: 2
+    toc-title: "En esta página"
+    lang: es 
+    include-in-header:                         #CSS va en el <head>
+      - text: |
+          <link rel="stylesheet" href="/display-options.css">
+    include-after-body:
+      - text: |
+          <script src="/display-options.js"></script>
+   
+editor: visual
+

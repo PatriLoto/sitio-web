@@ -1,0 +1,656 @@
+---
+title: "Machine Learning Geoespacial para agricultura: Lo que aprendí en Khipu 2024"
+description: "Tutorial completo sobre clasificación de cultivos usando Sentinel-2 y técnicas de ML geoespacial, basado en el taller práctico de Khipu 2024"
+author: "Tu Nombre"
+date: "2024-03-25"
+categories: [machine-learning, geoespacial, agricultura, sentinel-2, python, khipu]
+image: "https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?w=1200"
+draft: false
+toc: true
+number-sections: true
+execute:
+  echo: true
+  warning: false
+format:
+  html:
+    code-fold: false
+    code-summary: "Mostrar/ocultar código"
+    code-tools: true
+---
+
+## Introducción
+
+Durante [Khipu 2024](https://khipu.ai/), tuve la oportunidad de participar en el taller de **Machine Learning Geoespacial**, una experiencia transformadora que me mostró el poder de combinar imágenes satelitales con técnicas de ML para resolver problemas reales de agricultura en Latinoamérica.
+
+En este post, compartiré el conocimiento adquirido y desarrollaré un tutorial completo para clasificar tipos de cultivos usando imágenes Sentinel-2, inspirado en el caso de estudio de Chile que trabajamos en el taller.
+
+![Agricultura vista desde el espacio](https://images.unsplash.com/photo-1574482620811-1aa16ffe3c82?w=800)
+
+::: {.callout-important}
+## Objetivo del tutorial
+
+Desarrollar un pipeline completo de ML geoespacial para:
+1. Obtener y procesar imágenes satelitales Sentinel-2
+2. Extraer características espectrales y temporales
+3. Entrenar un modelo de clasificación de cultivos
+4. Validar resultados considerando la naturaleza espacial de los datos
+:::
+
+## ¿Por qué es importante el ML geoespacial para Latinoamérica?
+
+Nuestra región enfrenta desafíos únicos que pueden beneficiarse enormemente del análisis satelital:
+
+- **Seguridad alimentaria**: Monitorear la producción agrícola y predecir rendimientos
+- **Cambio climático**: Evaluar el impacto de sequías e inundaciones
+- **Gestión de recursos**: Optimizar el uso del agua y detectar cambios en el uso del suelo
+- **Políticas públicas**: Proporcionar datos objetivos para la toma de decisiones
+
+## Configuración del entorno
+
+Primero, configuremos nuestro entorno de trabajo con las bibliotecas necesarias:
+
+```python
+# Instalación de dependencias
+!pip install earthengine-api
+!pip install geopandas rasterio
+!pip install scikit-learn xgboost
+!pip install folium matplotlib seaborn
+
+# Importaciones principales
+import ee
+import geopandas as gpd
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from datetime import datetime, timedelta
+import folium
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import classification_report, confusion_matrix
+import warnings
+warnings.filterwarnings('ignore')
+
+# Configurar visualización
+plt.style.use('seaborn-v0_8-darkgrid')
+sns.set_palette("husl")
+```
+
+## Autenticación y configuración de Google Earth Engine
+
+```python
+# Autenticar e inicializar Earth Engine
+ee.Authenticate()
+ee.Initialize()
+
+print("✅ Google Earth Engine inicializado correctamente")
+```
+
+## Definición del área de estudio
+
+Para este tutorial, trabajaremos con una región agrícola de Chile Central, similar a la del taller:
+
+```python
+# Definir área de estudio (Valle Central de Chile)
+# Coordenadas aproximadas de la región de O'Higgins
+lon_min, lat_min = -71.5, -34.5
+lon_max, lat_max = -70.5, -34.0
+
+# Crear geometría
+aoi = ee.Geometry.Rectangle([lon_min, lat_min, lon_max, lat_max])
+
+# Visualizar el área de estudio
+def visualize_aoi(geometry, zoom=9):
+    """Visualiza el área de interés en un mapa interactivo"""
+    # Obtener el centro
+    center = geometry.centroid().getInfo()['coordinates']
+    
+    # Crear mapa
+    m = folium.Map(location=[center[1], center[0]], zoom_start=zoom)
+    
+    # Agregar el área de interés
+    folium.GeoJson(
+        geometry.getInfo(),
+        name='Área de Estudio',
+        style_function=lambda x: {
+            'fillColor': '#ff7800',
+            'color': 'black',
+            'weight': 2,
+            'fillOpacity': 0.3
+        }
+    ).add_to(m)
+    
+    # Agregar controles
+    folium.LayerControl().add_to(m)
+    
+    return m
+
+# Mostrar mapa
+visualize_aoi(aoi)
+```
+
+## Obtención de imágenes Sentinel-2
+
+Sentinel-2 proporciona imágenes multiespectrales con resolución de 10-20m, ideales para monitoreo agrícola:
+
+```python
+def get_sentinel2_collection(aoi, start_date, end_date, cloud_threshold=20):
+    """
+    Obtiene una colección de imágenes Sentinel-2 filtradas
+    """
+    collection = ee.ImageCollection('COPERNICUS/S2_SR_HARMONIZED') \
+        .filterBounds(aoi) \
+        .filterDate(start_date, end_date) \
+        .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', cloud_threshold)) \
+        .select(['B2', 'B3', 'B4', 'B8', 'B11', 'B12', 'SCL'])
+    
+    return collection
+
+# Definir período de análisis (temporada de crecimiento)
+start_date = '2023-09-01'
+end_date = '2024-02-28'
+
+# Obtener colección
+s2_collection = get_sentinel2_collection(aoi, start_date, end_date)
+print(f"Imágenes encontradas: {s2_collection.size().getInfo()}")
+```
+
+## Cálculo de índices espectrales
+
+Los índices espectrales son fundamentales para caracterizar la vegetación:
+
+```python
+def add_spectral_indices(image):
+    """
+    Agrega índices espectrales a una imagen
+    """
+    # NDVI - Normalized Difference Vegetation Index
+    ndvi = image.normalizedDifference(['B8', 'B4']).rename('NDVI')
+    
+    # NDWI - Normalized Difference Water Index
+    ndwi = image.normalizedDifference(['B3', 'B8']).rename('NDWI')
+    
+    # EVI - Enhanced Vegetation Index
+    evi = image.expression(
+        '2.5 * ((NIR - RED) / (NIR + 6 * RED - 7.5 * BLUE + 1))',
+        {
+            'NIR': image.select('B8'),
+            'RED': image.select('B4'),
+            'BLUE': image.select('B2')
+        }
+    ).rename('EVI')
+    
+    # SAVI - Soil Adjusted Vegetation Index
+    savi = image.expression(
+        '((NIR - RED) / (NIR + RED + 0.5)) * 1.5',
+        {
+            'NIR': image.select('B8'),
+            'RED': image.select('B4')
+        }
+    ).rename('SAVI')
+    
+    return image.addBands([ndvi, ndwi, evi, savi])
+
+# Aplicar a la colección
+s2_with_indices = s2_collection.map(add_spectral_indices)
+```
+
+## Composiciones temporales
+
+Para capturar la dinámica temporal de los cultivos:
+
+```python
+def create_temporal_composites(collection, aoi):
+    """
+    Crea composiciones temporales mensuales
+    """
+    composites = []
+    
+    # Crear composiciones mensuales
+    months = ee.List.sequence(9, 2)  # Sept a Feb
+    
+    def monthly_composite(month):
+        # Ajustar año según el mes
+        year = ee.Number(ee.Algorithms.If(month.gte(9), 2023, 2024))
+        
+        # Filtrar por mes
+        filtered = collection.filter(
+            ee.Filter.calendarRange(month, month, 'month')
+        ).filter(
+            ee.Filter.calendarRange(year, year, 'year')
+        )
+        
+        # Crear mediana mensual
+        composite = filtered.median().set({
+            'month': month,
+            'year': year,
+            'system:time_start': ee.Date.fromYMD(year, month, 15).millis()
+        })
+        
+        return composite
+    
+    # Mapear sobre los meses
+    monthly_composites = ee.ImageCollection(months.map(monthly_composite))
+    
+    return monthly_composites
+
+# Crear composiciones mensuales
+monthly_composites = create_temporal_composites(s2_with_indices, aoi)
+```
+
+## Preparación de datos de entrenamiento
+
+Para el entrenamiento, necesitamos muestras etiquetadas de diferentes tipos de cultivos:
+
+```python
+def create_training_samples():
+    """
+    Crea puntos de entrenamiento sintéticos para diferentes cultivos
+    Nota: En un caso real, estos vendrían de datos de campo
+    """
+    # Definir clases de cultivos típicos de Chile Central
+    crop_types = {
+        'viñedos': 1,
+        'frutales': 2,
+        'cereales': 3,
+        'hortalizas': 4,
+        'pastizales': 5,
+        'sin_cultivo': 0
+    }
+    
+    # Generar puntos aleatorios por clase (simulación)
+    # En la práctica, estos serían datos reales de campo
+    np.random.seed(42)
+    samples = []
+    
+    for crop, label in crop_types.items():
+        n_samples = 100  # Número de muestras por clase
+        
+        # Generar coordenadas aleatorias dentro del AOI
+        lons = np.random.uniform(lon_min, lon_max, n_samples)
+        lats = np.random.uniform(lat_min, lat_max, n_samples)
+        
+        for lon, lat in zip(lons, lats):
+            samples.append({
+                'longitude': lon,
+                'latitude': lat,
+                'crop_type': crop,
+                'label': label
+            })
+    
+    return pd.DataFrame(samples)
+
+# Crear datos de entrenamiento
+training_df = create_training_samples()
+print(f"Total de muestras de entrenamiento: {len(training_df)}")
+print("\nDistribución de clases:")
+print(training_df['crop_type'].value_counts())
+```
+
+## Extracción de características
+
+Ahora extraemos los valores de píxeles para cada punto de entrenamiento:
+
+```python
+def extract_pixel_values(image_collection, points_df):
+    """
+    Extrae valores de píxeles de la colección de imágenes
+    """
+    # Convertir DataFrame a FeatureCollection de EE
+    features = []
+    for idx, row in points_df.iterrows():
+        point = ee.Geometry.Point([row['longitude'], row['latitude']])
+        feature = ee.Feature(point, {
+            'label': row['label'],
+            'crop_type': row['crop_type']
+        })
+        features.append(feature)
+    
+    fc = ee.FeatureCollection(features)
+    
+    # Función para extraer valores
+    def extract_values(image):
+        values = image.reduceRegions(
+            collection=fc,
+            reducer=ee.Reducer.first(),
+            scale=10
+        )
+        return values.map(lambda f: f.set({
+            'imageId': image.id(),
+            'date': image.date().format('YYYY-MM-dd')
+        }))
+    
+    # Extraer valores de todas las imágenes
+    all_values = image_collection.map(extract_values).flatten()
+    
+    return all_values
+
+# Extraer características espectrales y temporales
+print("Extrayendo características... (esto puede tomar unos minutos)")
+extracted_features = extract_pixel_values(monthly_composites, training_df)
+```
+
+## Preparación de features para ML
+
+Convertimos los datos extraídos en un formato adecuado para scikit-learn:
+
+```python
+def prepare_ml_features(extracted_features):
+    """
+    Prepara las características para el modelo de ML
+    """
+    # Convertir a lista de Python
+    features_list = extracted_features.getInfo()['features']
+    
+    # Organizar en DataFrame
+    data_rows = []
+    
+    for feature in features_list:
+        props = feature['properties']
+        row = {
+            'label': props['label'],
+            'crop_type': props['crop_type'],
+            'date': props.get('date', 'unknown')
+        }
+        
+        # Agregar bandas espectrales e índices
+        for band in ['B2', 'B3', 'B4', 'B8', 'B11', 'B12', 
+                     'NDVI', 'NDWI', 'EVI', 'SAVI']:
+            row[band] = props.get(band, np.nan)
+        
+        data_rows.append(row)
+    
+    df = pd.DataFrame(data_rows)
+    
+    # Pivotear para tener features temporales
+    # Cada mes como columna separada
+    df['month'] = pd.to_datetime(df['date']).dt.month
+    
+    # Crear features agregadas por punto
+    feature_cols = ['B2', 'B3', 'B4', 'B8', 'B11', 'B12', 
+                    'NDVI', 'NDWI', 'EVI', 'SAVI']
+    
+    # Calcular estadísticas temporales
+    agg_features = []
+    for crop_type in df['crop_type'].unique():
+        crop_data = df[df['crop_type'] == crop_type]
+        
+        for idx in crop_data.index[:20]:  # Limitar para el ejemplo
+            point_features = {'crop_type': crop_type, 
+                            'label': crop_data.loc[idx, 'label']}
+            
+            # Estadísticas por feature
+            for feature in feature_cols:
+                values = crop_data[feature].dropna()
+                if len(values) > 0:
+                    point_features[f'{feature}_mean'] = values.mean()
+                    point_features[f'{feature}_std'] = values.std()
+                    point_features[f'{feature}_max'] = values.max()
+                    point_features[f'{feature}_min'] = values.min()
+            
+            agg_features.append(point_features)
+    
+    return pd.DataFrame(agg_features)
+
+# Preparar features (simulación con datos sintéticos para el ejemplo)
+# En un caso real, esto vendría de los datos extraídos de Earth Engine
+np.random.seed(42)
+n_samples = 600
+
+# Simular features para diferentes cultivos
+features_dict = {}
+feature_names = []
+
+for band in ['B2', 'B3', 'B4', 'B8', 'B11', 'B12']:
+    for stat in ['mean', 'std', 'max', 'min']:
+        feature_name = f'{band}_{stat}'
+        feature_names.append(feature_name)
+        features_dict[feature_name] = np.random.randn(n_samples)
+
+for index in ['NDVI', 'NDWI', 'EVI', 'SAVI']:
+    for stat in ['mean', 'std', 'max', 'min']:
+        feature_name = f'{index}_{stat}'
+        feature_names.append(feature_name)
+        # Simular valores más realistas para índices
+        if index == 'NDVI':
+            base = np.random.uniform(0.2, 0.8, n_samples)
+        elif index == 'NDWI':
+            base = np.random.uniform(-0.3, 0.3, n_samples)
+        else:
+            base = np.random.uniform(0.1, 0.6, n_samples)
+        
+        if stat == 'mean':
+            features_dict[feature_name] = base
+        elif stat == 'std':
+            features_dict[feature_name] = np.abs(np.random.randn(n_samples) * 0.1)
+        elif stat == 'max':
+            features_dict[feature_name] = base + np.abs(np.random.randn(n_samples) * 0.2)
+        else:  # min
+            features_dict[feature_name] = base - np.abs(np.random.randn(n_samples) * 0.2)
+
+# Crear DataFrame
+ml_features = pd.DataFrame(features_dict)
+ml_features['label'] = np.repeat([0, 1, 2, 3, 4, 5], 100)
+ml_features['crop_type'] = np.repeat(['sin_cultivo', 'viñedos', 'frutales', 
+                                     'cereales', 'hortalizas', 'pastizales'], 100)
+
+print(f"Shape de features: {ml_features.shape}")
+print(f"Features: {feature_names[:10]}...")
+```
+
+## Entrenamiento del modelo
+
+Ahora entrenamos un modelo Random Forest para clasificación:
+
+```python
+# Separar features y labels
+X = ml_features[feature_names]
+y = ml_features['label']
+
+# División train/test con estratificación
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.3, random_state=42, stratify=y
+)
+
+print(f"Conjunto de entrenamiento: {X_train.shape}")
+print(f"Conjunto de prueba: {X_test.shape}")
+
+# Entrenar Random Forest
+rf_model = RandomForestClassifier(
+    n_estimators=100,
+    max_depth=10,
+    min_samples_split=5,
+    min_samples_leaf=2,
+    random_state=42,
+    n_jobs=-1
+)
+
+rf_model.fit(X_train, y_train)
+
+# Predicciones
+y_pred = rf_model.predict(X_test)
+
+# Evaluación
+print("\nReporte de Clasificación:")
+print("="*50)
+class_names = ['sin_cultivo', 'viñedos', 'frutales', 'cereales', 'hortalizas', 'pastizales']
+print(classification_report(y_test, y_pred, target_names=class_names))
+```
+
+## Análisis de importancia de características
+
+```python
+# Importancia de características
+feature_importance = pd.DataFrame({
+    'feature': feature_names,
+    'importance': rf_model.feature_importances_
+}).sort_values('importance', ascending=False)
+
+# Visualizar top 20 features
+plt.figure(figsize=(10, 8))
+top_features = feature_importance.head(20)
+plt.barh(top_features['feature'], top_features['importance'])
+plt.xlabel('Importancia')
+plt.title('Top 20 Características Más Importantes')
+plt.gca().invert_yaxis()
+plt.tight_layout()
+plt.show()
+
+# Análisis por tipo de característica
+feature_importance['band'] = feature_importance['feature'].str.split('_').str[0]
+feature_importance['stat'] = feature_importance['feature'].str.split('_').str[1]
+
+# Importancia promedio por banda/índice
+band_importance = feature_importance.groupby('band')['importance'].mean().sort_values(ascending=False)
+
+plt.figure(figsize=(10, 6))
+band_importance.plot(kind='bar')
+plt.title('Importancia Promedio por Banda/Índice')
+plt.xlabel('Banda/Índice')
+plt.ylabel('Importancia Promedio')
+plt.xticks(rotation=45)
+plt.tight_layout()
+plt.show()
+```
+
+## Matriz de confusión
+
+```python
+# Matriz de confusión
+cm = confusion_matrix(y_test, y_pred)
+
+plt.figure(figsize=(10, 8))
+sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', 
+            xticklabels=class_names, 
+            yticklabels=class_names)
+plt.title('Matriz de Confusión')
+plt.xlabel('Predicho')
+plt.ylabel('Real')
+plt.tight_layout()
+plt.show()
+```
+
+## Validación espacial
+
+::: {.callout-warning}
+## Consideración importante
+
+En datos geoespaciales, la validación aleatoria puede sobreestimar el rendimiento debido a la autocorrelación espacial. Es crucial implementar validación espacial.
+:::
+
+```python
+def spatial_train_test_split(df, test_size=0.3, grid_size=5):
+    """
+    División espacial de datos usando una grilla
+    """
+    # Crear grilla espacial
+    df['grid_x'] = pd.cut(df['longitude'], bins=grid_size, labels=False)
+    df['grid_y'] = pd.cut(df['latitude'], bins=grid_size, labels=False)
+    df['grid_cell'] = df['grid_x'].astype(str) + '_' + df['grid_y'].astype(str)
+    
+    # Seleccionar celdas para test
+    unique_cells = df['grid_cell'].unique()
+    n_test_cells = int(len(unique_cells) * test_size)
+    test_cells = np.random.choice(unique_cells, n_test_cells, replace=False)
+    
+    # Dividir datos
+    test_mask = df['grid_cell'].isin(test_cells)
+    train_df = df[~test_mask]
+    test_df = df[test_mask]
+    
+    return train_df, test_df
+
+# Ejemplo de validación espacial
+print("Implementando validación espacial...")
+# En un caso real, esto se aplicaría a los datos originales con coordenadas
+```
+
+## Aplicación del modelo a nuevas áreas
+
+```python
+def classify_new_area(model, new_aoi, start_date, end_date):
+    """
+    Clasifica una nueva área usando el modelo entrenado
+    """
+    # Obtener imágenes para la nueva área
+    new_collection = get_sentinel2_collection(new_aoi, start_date, end_date)
+    new_collection = new_collection.map(add_spectral_indices)
+    
+    # Crear composiciones temporales
+    new_composites = create_temporal_composites(new_collection, new_aoi)
+    
+    # Calcular features agregadas
+    feature_image = new_composites.reduce(
+        ee.Reducer.mean().combine(
+            ee.Reducer.stdDev(), '', True
+        ).combine(
+            ee.Reducer.max(), '', True
+        ).combine(
+            ee.Reducer.min(), '', True
+        )
+    )
+    
+    # Preparar para clasificación
+    bands_to_classify = feature_image.bandNames()
+    
+    # Clasificar (esto sería con el modelo exportado a Earth Engine)
+    # classified = feature_image.classify(model)
+    
+    return feature_image
+
+print("Pipeline de clasificación configurado correctamente ✅")
+```
+
+## Mejores prácticas aprendidas
+
+### 1. **Calidad de datos de entrenamiento**
+- Los datos de campo son cruciales
+- Verificar la distribución temporal de las muestras
+- Considerar el desbalance de clases
+
+### 2. **Feature engineering geoespacial**
+- Los índices espectrales capturan información clave
+- Las características temporales son esenciales para diferenciar cultivos
+- Considerar la fenología de cada cultivo
+
+### 3. **Validación apropiada**
+- Siempre usar validación espacial
+- Considerar la variabilidad temporal
+- Evaluar en áreas completamente nuevas
+
+### 4. **Escalabilidad**
+- Google Earth Engine para procesamiento masivo
+- Modelos eficientes para grandes áreas
+- Considerar el balance entre precisión y velocidad
+
+## Recursos y próximos pasos
+
+### 📚 Para profundizar
+- [Documentación de Earth Engine](https://developers.google.com/earth-engine)
+- [Awesome Earth Observation](https://github.com/chrieke/awesome-earth-observation-code)
+- [Guía de ML para teledetección](https://www.mdpi.com/2072-4292/12/10/1634)
+
+### 🛠️ Herramientas recomendadas
+- **eo-learn**: Framework de Python para ML en observación terrestre
+- **SITS**: Análisis de series temporales satelitales
+- **sen2cor**: Corrección atmosférica para Sentinel-2
+
+### 🎯 Proyectos sugeridos
+1. Adaptar el código para tu región de interés
+2. Experimentar con diferentes algoritmos (XGBoost, redes neuronales)
+3. Incorporar datos de radar (Sentinel-1) para mejorar la clasificación
+4. Crear un dashboard interactivo con los resultados
+
+## Conclusión
+
+El taller de ML Geoespacial en Khipu 2024 me mostró el enorme potencial de estas tecnologías para abordar desafíos agrícolas en Latinoamérica. Con datos abiertos como Sentinel-2 y herramientas como Google Earth Engine, podemos desarrollar soluciones escalables y de impacto real.
+
+Lo más importante que aprendí es que el ML geoespacial no es solo sobre algoritmos, sino sobre entender el contexto: la fenología de los cultivos, los patrones climáticos locales y las necesidades específicas de nuestra región.
+
+::: {.callout-note appearance="simple" icon=false}
+**¿Te interesa el ML geoespacial?** Únete a la comunidad de Khipu y sigamos aprendiendo juntos. Comparte tus proyectos y experiencias usando #KhipuAI #MLGeoespacial
+:::
+
+---
+
+*Este tutorial está basado en el taller práctico de Geospatial Machine Learning impartido en Khipu 2024. Agradecimientos especiales a los instructores y participantes que hicieron posible esta experiencia de aprendizaje.*

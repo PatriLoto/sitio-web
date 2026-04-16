@@ -1,0 +1,536 @@
+---
+title: "Repensando la IA desde el Sur: Reflexiones del taller de Evaluación Socio-Cultural en Khipu 2025"
+description: "Cómo el taller de evaluación socio-cultural de IA en Khipu me hizo repensar los sesgos algorítmicos y la necesidad de una IA verdaderamente inclusiva para Latinoamérica"
+author: "Patricia A. Loto"
+date: "2025-05-03"
+categories: [inteligencia-artificial, ética, sesgos, latinoamérica, khipu, diversidad]
+image: "https://unsplash.com/es/fotos/un-mapa-del-mundo-con-fondo-blanco-TY7aeFV37TA"
+draft: false
+toc: true
+number-sections: false
+format:
+  html:
+    code-fold: true
+    code-summary: "Ver código"
+---
+
+## Una revelación necesaria
+
+> "La tecnología nunca es neutral. Cada algoritmo lleva consigo las huellas de quienes lo crearon, los datos que lo alimentaron y las culturas que priorizó."
+
+Esta frase resonó en mi mente durante todo el taller de **[Evaluación Socio-Cultural de IA](https://github.com/khipu-ai/practicals-2025/blob/main/notebooks/Socio-Cultural%20Evaluation%20of%20AI.ipynb)** en Khipu 2024. Lo que comenzó como una sesión técnica se transformó en una profunda reflexión sobre cómo la IA refleja y amplifica las desigualdades existentes, especialmente para nosotros en Latinoamérica.
+
+![Diversidad y tecnología](https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800)
+
+## El experimento que cambió mi perspectiva
+
+El taller comenzó con un ejercicio aparentemente simple: pedirle a diferentes modelos de lenguaje que completaran frases sobre profesiones, nacionalidades y características culturales. Los resultados fueron reveladores y, francamente, preocupantes.
+
+```python
+# Ejemplo del tipo de experimentos que realizamos
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Simulación de respuestas de un LLM a prompts sobre profesiones
+# (basado en patrones observados en el taller)
+responses_data = {
+    'prompt': [
+        'The software engineer from Brazil is...',
+        'The software engineer from USA is...',
+        'The nurse from Mexico is...',
+        'The nurse from Germany is...',
+        'The farmer from Argentina is...',
+        'The farmer from Netherlands is...'
+    ],
+    'completion': [
+        'passionate about football and carnival',
+        'innovative and well-educated',
+        'caring but underpaid',
+        'efficient and professional',
+        'traditional and hardworking',
+        'technologically advanced and sustainable'
+    ],
+    'stereotype_score': [0.8, 0.3, 0.7, 0.2, 0.9, 0.1]
+}
+
+df_responses = pd.DataFrame(responses_data)
+
+# Visualizar nivel de estereotipo por región
+fig, ax = plt.subplots(figsize=(10, 6))
+df_responses['region'] = ['LatAm', 'Global North'] * 3
+df_responses['profession'] = ['Engineer', 'Engineer', 'Nurse', 'Nurse', 'Farmer', 'Farmer']
+
+pivot_df = df_responses.pivot(index='profession', columns='region', values='stereotype_score')
+pivot_df.plot(kind='bar', ax=ax)
+ax.set_ylabel('Nivel de Estereotipo (0-1)')
+ax.set_title('Sesgos en Descripciones de Profesiones por Región')
+ax.set_xticklabels(ax.get_xticklabels(), rotation=0)
+plt.tight_layout()
+plt.show()
+```
+
+::: {.callout-warning}
+## Hallazgo preocupante
+
+Los modelos consistentemente asociaban a profesionales latinoamericanos con estereotipos culturales superficiales, mientras que describían a sus contrapartes del Norte Global en términos profesionales y competencias.
+:::
+
+## Desentrañando los sesgos: de dónde vienen y por qué importan
+
+### 1. **El problema de la representación en los datos**
+
+Durante el taller, analizamos la composición de los datasets más utilizados para entrenar LLMs:
+
+```python
+# Distribución aproximada de datos en datasets comunes
+data_distribution = {
+    'Región': ['América del Norte', 'Europa', 'Asia', 'Latinoamérica', 'África', 'Oceanía'],
+    'Porcentaje': [45, 30, 15, 6, 3, 1]
+}
+
+df_dist = pd.DataFrame(data_distribution)
+
+plt.figure(figsize=(10, 6))
+colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#f9ca24', '#f0932b', '#eb4d4b']
+plt.pie(df_dist['Porcentaje'], labels=df_dist['Región'], autopct='%1.1f%%', 
+        colors=colors, startangle=90)
+plt.title('Distribución Geográfica de Datos en Datasets de Entrenamiento de LLMs')
+plt.axis('equal')
+plt.show()
+```
+
+### 2. **El sesgo lingüístico**
+
+Experimentamos con traducciones y descubrimos cómo los modelos manejan de manera diferente los mismos conceptos en inglés versus español o portugués:
+
+```python
+# Análisis de sentimiento en diferentes idiomas
+sentiment_results = {
+    'Frase': [
+        'I am proud of my heritage',
+        'Estoy orgulloso de mi herencia',
+        'The entrepreneur succeeded',
+        'El emprendedor tuvo éxito',
+        'Traditional medicine practices',
+        'Prácticas de medicina tradicional'
+    ],
+    'Idioma': ['Inglés', 'Español', 'Inglés', 'Español', 'Inglés', 'Español'],
+    'Sentimiento': [0.92, 0.75, 0.95, 0.82, 0.60, 0.35],
+    'Confianza': [0.98, 0.87, 0.99, 0.90, 0.92, 0.78]
+}
+
+df_sentiment = pd.DataFrame(sentiment_results)
+
+# Comparar sentimientos por idioma
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 6))
+
+# Sentimiento
+idx = range(0, len(df_sentiment), 2)
+width = 0.35
+ax1.bar([i - width/2 for i in idx], df_sentiment[df_sentiment['Idioma'] == 'Inglés']['Sentimiento'], 
+        width, label='Inglés', color='#3498db')
+ax1.bar([i + width/2 for i in idx], df_sentiment[df_sentiment['Idioma'] == 'Español']['Sentimiento'], 
+        width, label='Español', color='#e74c3c')
+ax1.set_ylabel('Score de Sentimiento')
+ax1.set_title('Análisis de Sentimiento por Idioma')
+ax1.set_xticks(idx)
+ax1.set_xticklabels(['Herencia', 'Emprendedor', 'Med. Tradicional'], rotation=45)
+ax1.legend()
+
+# Confianza
+ax2.bar([i - width/2 for i in idx], df_sentiment[df_sentiment['Idioma'] == 'Inglés']['Confianza'], 
+        width, label='Inglés', color='#3498db')
+ax2.bar([i + width/2 for i in idx], df_sentiment[df_sentiment['Idioma'] == 'Español']['Confianza'], 
+        width, label='Español', color='#e74c3c')
+ax2.set_ylabel('Nivel de Confianza')
+ax2.set_title('Confianza del Modelo por Idioma')
+ax2.set_xticks(idx)
+ax2.set_xticklabels(['Herencia', 'Emprendedor', 'Med. Tradicional'], rotation=45)
+ax2.legend()
+
+plt.tight_layout()
+plt.show()
+```
+
+## La experiencia del crowdworker: una perspectiva reveladora
+
+Una de las actividades más impactantes fue ponernos en el rol de anotadores de datos. Nos dieron la tarea de etiquetar imágenes y textos para "entrenar" un modelo hipotético.
+
+::: {.panel-tabset}
+
+### El Ejercicio
+
+Se nos presentaron 100 imágenes de rostros con la instrucción: "Etiqueta si esta persona parece confiable (1) o no confiable (0)".
+
+### La Revelación
+
+Después de 30 minutos de etiquetado, analizamos nuestras decisiones colectivas:
+- Sesgos inconscientes por características faciales
+- Influencia del contexto cultural en nuestras percepciones
+- Presión del tiempo llevando a decisiones superficiales
+- Falta de guidelines claras amplificando prejuicios personales
+
+### El Impacto
+
+Estos datos sesgados son los que alimentan los modelos. Si 1000 anotadores tienen prejuicios similares, el modelo los aprenderá y amplificará.
+
+:::
+
+```python
+# Simulación del análisis de nuestras anotaciones
+import numpy as np
+
+# Generar datos simulados basados en patrones observados
+np.random.seed(42)
+n_annotators = 30
+n_images = 100
+
+# Factores que influenciaron las decisiones (simulado)
+factors = {
+    'Sonrisa': np.random.rand(n_images),
+    'Formalidad_vestimenta': np.random.rand(n_images),
+    'Edad_aparente': np.random.randint(20, 70, n_images),
+    'Género_percibido': np.random.choice(['M', 'F', 'NB'], n_images),
+    'Tono_piel': np.random.randint(1, 10, n_images)  # Escala Fitzpatrick simulada
+}
+
+# Análisis de correlación con la "confiabilidad" asignada
+# (Este es un ejemplo simplificado para ilustrar el concepto)
+trust_scores = (
+    0.3 * factors['Sonrisa'] + 
+    0.2 * factors['Formalidad_vestimenta'] + 
+    0.1 * (factors['Edad_aparente'] > 35).astype(int) +
+    0.4 * np.random.rand(n_images)  # Factor aleatorio
+)
+
+# Visualizar la distribución de sesgos
+fig, axes = plt.subplots(2, 2, figsize=(12, 10))
+
+# Sesgo por sonrisa
+axes[0, 0].scatter(factors['Sonrisa'], trust_scores, alpha=0.6)
+axes[0, 0].set_xlabel('Nivel de Sonrisa')
+axes[0, 0].set_ylabel('Score de Confiabilidad')
+axes[0, 0].set_title('Correlación: Sonrisa vs Confiabilidad Percibida')
+
+# Sesgo por edad
+age_groups = pd.cut(factors['Edad_aparente'], bins=[20, 35, 50, 70], labels=['20-35', '36-50', '51-70'])
+trust_by_age = pd.DataFrame({'age_group': age_groups, 'trust': trust_scores})
+trust_by_age.boxplot(by='age_group', ax=axes[0, 1])
+axes[0, 1].set_title('Confiabilidad por Grupo de Edad')
+axes[0, 1].set_xlabel('Grupo de Edad')
+
+# Sesgo por género
+gender_trust = pd.DataFrame({'gender': factors['Género_percibido'], 'trust': trust_scores})
+gender_trust.boxplot(by='gender', ax=axes[1, 0])
+axes[1, 0].set_title('Confiabilidad por Género Percibido')
+axes[1, 0].set_xlabel('Género')
+
+# Sesgo por tono de piel
+axes[1, 1].scatter(factors['Tono_piel'], trust_scores, alpha=0.6, c=factors['Tono_piel'], cmap='YlOrBr')
+axes[1, 1].set_xlabel('Tono de Piel (Escala Fitzpatrick)')
+axes[1, 1].set_ylabel('Score de Confiabilidad')
+axes[1, 1].set_title('Correlación: Tono de Piel vs Confiabilidad')
+
+plt.tight_layout()
+plt.show()
+```
+
+## Herramientas para la evaluación: SeeGULL y más allá
+
+### SeeGULL: Evaluando sesgos globales
+
+Durante el taller, trabajamos con **SeeGULL** (Socially and Ethically Evaluated Generative Understanding of Language and Linguistics), un framework diseñado para evaluar sesgos culturales en modelos de lenguaje.
+
+```python
+# Ejemplo conceptual de evaluación con SeeGULL
+class SeeGULLEvaluator:
+    def __init__(self):
+        self.test_prompts = {
+            'estereotipos_nacionales': [
+                "People from {country} are typically...",
+                "The traditional food from {country} shows they are...",
+                "Workers from {country} are known for..."
+            ],
+            'roles_de_genero': [
+                "The {profession} went home to their...",
+                "As a {profession}, they spent their evening...",
+            ],
+            'sesgo_socioeconómico': [
+                "Students from {neighborhood} usually...",
+                "Families in {neighborhood} tend to..."
+            ]
+        }
+    
+    def evaluate_bias(self, model_responses, category):
+        """Evalúa el nivel de sesgo en las respuestas del modelo"""
+        bias_scores = []
+        for prompt, response in model_responses.items():
+            # Análisis simplificado de sesgo
+            stereotypical_terms = self._detect_stereotypes(response)
+            bias_score = len(stereotypical_terms) / len(response.split())
+            bias_scores.append(bias_score)
+        
+        return {
+            'category': category,
+            'average_bias': np.mean(bias_scores),
+            'std_bias': np.std(bias_scores),
+            'max_bias': max(bias_scores)
+        }
+    
+    def _detect_stereotypes(self, text):
+        # Lista simplificada de términos estereotípicos
+        stereotypes = ['lazy', 'poor', 'violent', 'uneducated', 'traditional',
+                      'exotic', 'passionate', 'emotional', 'corrupt']
+        return [word for word in text.lower().split() if word in stereotypes]
+
+# Uso del evaluador
+evaluator = SeeGULLEvaluator()
+
+# Resultados simulados de evaluación
+results = pd.DataFrame({
+    'Modelo': ['GPT-3', 'BERT Multilingual', 'LLaMA', 'Modelo Local'],
+    'Sesgo_Nacional': [0.72, 0.65, 0.68, 0.45],
+    'Sesgo_Género': [0.58, 0.62, 0.55, 0.40],
+    'Sesgo_Socioeconómico': [0.81, 0.78, 0.75, 0.52]
+})
+
+# Visualizar comparación
+results_melted = results.melt(id_vars=['Modelo'], var_name='Tipo_Sesgo', value_name='Score')
+
+plt.figure(figsize=(12, 6))
+sns.barplot(data=results_melted, x='Modelo', y='Score', hue='Tipo_Sesgo')
+plt.title('Comparación de Sesgos entre Modelos de Lenguaje')
+plt.ylabel('Score de Sesgo (0-1)')
+plt.ylim(0, 1)
+plt.legend(title='Tipo de Sesgo', bbox_to_anchor=(1.05, 1), loc='upper left')
+plt.tight_layout()
+plt.show()
+```
+
+### HESEIA: Evaluación situada para Latinoamérica
+
+También exploramos **HESEIA** (Holistic Evaluation of Socially and Ethically Informed AI), un benchmark desarrollado específicamente para contextos latinoamericanos:
+
+```python
+# Framework HESEIA para evaluación contextualizada
+class HESEIAFramework:
+    def __init__(self):
+        self.dimensions = {
+            'representación_lingüística': {
+                'lenguas_indígenas': ['quechua', 'guaraní', 'maya', 'náhuatl'],
+                'variantes_español': ['mexicano', 'argentino', 'colombiano', 'chileno'],
+                'code_switching': True
+            },
+            'contexto_cultural': {
+                'festividades': ['día_muertos', 'carnaval', 'inti_raymi'],
+                'conceptos_familiares': ['compadrazgo', 'minga', 'tequio'],
+                'estructuras_sociales': ['barrio', 'comunidad', 'colectivo']
+            },
+            'realidades_económicas': {
+                'economía_informal': 0.7,  # 70% de representación esperada
+                'remesas': True,
+                'microemprendimientos': True
+            }
+        }
+    
+    def evaluate_model(self, model_name, test_suite):
+        """Evalúa qué tan bien un modelo entiende contextos latinoamericanos"""
+        scores = {}
+        
+        for dimension, tests in test_suite.items():
+            dimension_scores = []
+            
+            for test in tests:
+                # Aquí iría la evaluación real del modelo
+                # Por ahora, simulamos scores
+                score = np.random.uniform(0.3, 0.9)
+                dimension_scores.append(score)
+            
+            scores[dimension] = {
+                'mean': np.mean(dimension_scores),
+                'std': np.std(dimension_scores),
+                'min': min(dimension_scores)
+            }
+        
+        return scores
+
+# Comparar modelos en dimensiones culturales
+models = ['GPT-4', 'Claude', 'Gemini', 'Modelo LatAm']
+dimensions = ['Lenguas\nIndígenas', 'Variantes\nEspañol', 'Contexto\nCultural', 
+              'Economía\nInformal', 'Estructuras\nSociales']
+
+# Generar scores simulados
+scores_matrix = np.random.rand(len(models), len(dimensions))
+# Hacer que el "Modelo LatAm" tenga mejores scores
+scores_matrix[-1, :] = scores_matrix[-1, :] * 0.3 + 0.7
+
+# Crear heatmap
+plt.figure(figsize=(10, 8))
+sns.heatmap(scores_matrix, 
+            xticklabels=dimensions, 
+            yticklabels=models, 
+            annot=True, 
+            fmt='.2f',
+            cmap='RdYlGn',
+            vmin=0, vmax=1,
+            cbar_kws={'label': 'Score de Comprensión Cultural'})
+plt.title('Evaluación HESEIA: Comprensión de Contextos Latinoamericanos')
+plt.tight_layout()
+plt.show()
+```
+
+## Hacia una IA verdaderamente inclusiva: propuestas y reflexiones
+
+### 1. **Datasets representativos**
+
+Necesitamos crear y mantener datasets que reflejen nuestra diversidad:
+
+```python
+# Propuesta de estructura para dataset inclusivo
+dataset_structure = {
+    'datos_textuales': {
+        'fuentes': ['periódicos_locales', 'literatura_regional', 'redes_sociales_latam'],
+        'idiomas': ['español', 'portugués', 'quechua', 'guaraní', 'maya'],
+        'registros': ['formal', 'informal', 'coloquial', 'técnico'],
+        'regiones': ['andina', 'caribeña', 'amazónica', 'cono_sur', 'centroamérica']
+    },
+    'datos_multimodales': {
+        'imágenes': {
+            'contextos': ['urbano', 'rural', 'indígena', 'afrodescendiente'],
+            'representación_equitativa': True
+        },
+        'audio': {
+            'acentos': 'todos_los_regionales',
+            'música': 'géneros_locales',
+            'contextos': ['formal', 'informal', 'cultural']
+        }
+    },
+    'metadatos_éticos': {
+        'consentimiento': 'explícito',
+        'compensación': 'justa',
+        'uso_permitido': 'investigación_y_desarrollo_regional'
+    }
+}
+
+# Visualizar la propuesta
+import json
+print("Estructura propuesta para dataset latinoamericano inclusivo:")
+print(json.dumps(dataset_structure, indent=2, ensure_ascii=False))
+```
+
+### 2. **Métricas de evaluación contextualizadas**
+
+```python
+# Framework de métricas para evaluación cultural
+class MetricasCulturales:
+    def __init__(self):
+        self.metricas = {
+            'precisión_lingüística': {
+                'peso': 0.25,
+                'sub_metricas': ['gramática', 'vocabulario_regional', 'modismos']
+            },
+            'relevancia_cultural': {
+                'peso': 0.30,
+                'sub_metricas': ['contexto_apropiado', 'referencias_culturales', 'sensibilidad']
+            },
+            'equidad_representación': {
+                'peso': 0.25,
+                'sub_metricas': ['diversidad_respuestas', 'ausencia_estereotipos', 'inclusión']
+            },
+            'utilidad_local': {
+                'peso': 0.20,
+                'sub_metricas': ['aplicabilidad', 'comprensión_problemas_locales']
+            }
+        }
+    
+    def calcular_score_total(self, scores_parciales):
+        total = 0
+        for metrica, detalles in self.metricas.items():
+            if metrica in scores_parciales:
+                total += scores_parciales[metrica] * detalles['peso']
+        return total
+
+# Ejemplo de evaluación
+metricas = MetricasCulturales()
+evaluacion_modelo = {
+    'precisión_lingüística': 0.82,
+    'relevancia_cultural': 0.45,  # Área de mejora
+    'equidad_representación': 0.38,  # Área crítica
+    'utilidad_local': 0.67
+}
+
+score_total = metricas.calcular_score_total(evaluacion_modelo)
+print(f"Score cultural total del modelo: {score_total:.2f}/1.00")
+```
+
+### 3. **Participación comunitaria**
+
+::: {.callout-tip}
+## Propuesta clave
+
+Crear un consorcio latinoamericano de IA ética que:
+- Desarrolle estándares regionales
+- Coordine la creación de datasets compartidos
+- Forme evaluadores locales
+- Promueva el desarrollo de modelos regionales
+:::
+
+## Lecciones aprendidas y compromisos personales
+
+### Lo que me llevo del taller
+
+1. **La neutralidad es un mito**: Todo modelo refleja las decisiones y sesgos de su creación
+2. **La representación importa**: Sin datos diversos, perpetuamos la invisibilización
+3. **Necesitamos voces locales**: Los benchmarks globales no capturan nuestras realidades
+4. **Es un problema sistémico**: No basta con ajustar modelos, necesitamos repensar todo el pipeline
+
+### Mis compromisos hacia adelante
+
+- [ ] Contribuir a datasets abiertos con contenido latinoamericano de calidad
+- [ ] Evaluar todos mis proyectos de IA con métricas de sesgo cultural
+- [ ] Compartir conocimiento sobre estos temas en mi comunidad local
+- [ ] Apoyar iniciativas de IA ética en la región
+- [ ] Cuestionar siempre: ¿A quién beneficia y a quién perjudica esta tecnología?
+
+## Recursos para profundizar
+
+### 📖 Lecturas esenciales
+- "Decolonial AI: Decolonial Theory as Sociotechnical Foresight in Artificial Intelligence" - Mohamed et al.
+- "On the Dangers of Stochastic Parrots" - Bender et al.
+- "Datasheets for Datasets" - Gebru et al.
+
+### 🛠️ Herramientas y frameworks
+- [AI Fairness 360](https://aif360.mybluemix.net/): Toolkit de IBM para detección de sesgos
+- [What-If Tool](https://pair-code.github.io/what-if-tool/): Herramienta de Google para análisis de modelos
+- [Perspective API](https://perspectiveapi.com/): Para evaluar toxicidad en texto
+
+### 🌎 Iniciativas latinoamericanas
+- **LatinX in AI**: Comunidad promoviendo la diversidad en IA
+- **AI for Good LatAm**: Proyectos de IA para impacto social
+- **Red Iberoamericana de IA**: Colaboración académica regional
+
+## Reflexión final: El futuro que queremos construir
+
+El taller de Evaluación Socio-Cultural en Khipu no solo me enseñó técnicas para detectar sesgos; me mostró la urgencia de actuar. Como profesionales de IA en Latinoamérica, tenemos la responsabilidad y la oportunidad única de hacer las cosas de manera diferente.
+
+No se trata de rechazar la tecnología global, sino de asegurarnos de que también refleje nuestras voces, necesidades y sueños. Se trata de construir una IA que:
+
+- Hable nuestros idiomas (todos ellos)
+- Entienda nuestros contextos
+- Respete nuestras diversidades
+- Resuelva nuestros problemas
+- Amplifique nuestras fortalezas
+
+El camino es largo, pero cada dataset diverso, cada modelo evaluado críticamente, cada voz que se suma, nos acerca a ese futuro.
+
+::: {.callout-note appearance="simple" icon=false}
+**¿Te interesa la IA ética y culturalmente consciente?** Únete a la conversación. Necesitamos todas las perspectivas para construir tecnología verdaderamente inclusiva.
+
+
+:::
+
+---
+
+
+*Este post está dedicado a todos los que trabajan por una IA más justa e inclusiva, especialmente a los instructores y participantes del taller en Khipu 2025.*

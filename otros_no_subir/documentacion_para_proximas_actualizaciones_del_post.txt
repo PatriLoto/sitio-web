@@ -1,0 +1,11 @@
+
+
+Detalle de nuevos posts:
+
+📝 Posts creados:
+1. Post general sobre Khipu 2024
+Una introducción completa a tu experiencia en el evento, mencionando ambos talleres y reflexiones sobre la importancia de la IA latinoamericana.
+2. Post técnico: ML Geoespacial
+Tutorial detallado con código completo sobre clasificación de cultivos usando Sentinel-2, inspirado en el taller práctico.
+3. Post reflexivo: Evaluación Socio-Cultural
+Análisis profundo sobre sesgos en IA desde una perspectiva latinoamericana, con ejemplos prácticos y propuestas para construir IA más inclusiva.
