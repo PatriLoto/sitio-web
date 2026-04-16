@@ -35,6 +35,10 @@ format:
     toc-depth: 2
     toc-title: "En esta página"
     lang: es 
+    include-after-body:
+      - text: |
+          <link rel="stylesheet" href="display-options.css">
+          <script src="display-options.js"></script>
    
 editor: visual
 

@@ -1,0 +1,219 @@
+/* ========================================
+   Display Options Widget — Patricia Loto
+   Color de marca: #702552
+   ======================================== */
+
+/* Botón flotante */
+#display-options-toggle {
+  position: fixed;
+  bottom: 2rem;
+  right: 1.5rem;
+  z-index: 9999;
+  background-color: #702552;
+  color: white;
+  border: none;
+  border-radius: 50px;
+  padding: 0.6rem 1.1rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  box-shadow: 0 4px 16px rgba(112, 37, 82, 0.35);
+  transition: background-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+  font-family: inherit;
+}
+
+#display-options-toggle:hover {
+  background-color: #8f2f68;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(112, 37, 82, 0.45);
+}
+
+#display-options-toggle:focus-visible {
+  outline: 3px solid #702552;
+  outline-offset: 3px;
+}
+
+/* Panel */
+#display-options-panel {
+  position: fixed;
+  bottom: 5rem;
+  right: 1.5rem;
+  z-index: 9998;
+  background: #ffffff;
+  border: 1px solid #e0d0d8;
+  border-radius: 12px;
+  padding: 1.2rem 1.4rem 1rem;
+  width: 270px;
+  box-shadow: 0 8px 32px rgba(112, 37, 82, 0.18);
+  font-family: inherit;
+  font-size: 0.875rem;
+
+  /* Animación de entrada/salida */
+  opacity: 0;
+  transform: translateY(10px) scale(0.97);
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+#display-options-panel.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+/* Título del panel */
+#display-options-panel h3 {
+  margin: 0 0 1rem 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #702552;
+  border-bottom: 2px solid #f0e0ea;
+  padding-bottom: 0.5rem;
+  letter-spacing: 0.01em;
+}
+
+/* Grupos de control */
+.do-group {
+  margin-bottom: 0.85rem;
+}
+
+.do-group label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #444;
+  margin-bottom: 0.3rem;
+}
+
+.do-group label span.do-value {
+  font-weight: 400;
+  color: #702552;
+  font-size: 0.78rem;
+  min-width: 40px;
+  text-align: right;
+}
+
+/* Sliders */
+.do-group input[type="range"] {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 5px;
+  border-radius: 4px;
+  background: #f0e0ea;
+  outline: none;
+  cursor: pointer;
+}
+
+.do-group input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #702552;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.do-group input[type="range"]::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #702552;
+  cursor: pointer;
+  border: none;
+}
+
+/* Selector de fuente */
+.do-font-buttons {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.do-font-btn {
+  flex: 1;
+  padding: 0.3rem 0.4rem;
+  font-size: 0.75rem;
+  border: 1.5px solid #ddd;
+  border-radius: 6px;
+  background: white;
+  color: #444;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.do-font-btn:hover {
+  border-color: #702552;
+  color: #702552;
+}
+
+.do-font-btn.active {
+  background: #702552;
+  border-color: #702552;
+  color: white;
+  font-weight: 600;
+}
+
+/* Botón reset */
+#do-reset {
+  width: 100%;
+  margin-top: 0.8rem;
+  padding: 0.45rem;
+  background: transparent;
+  border: 1.5px solid #702552;
+  border-radius: 6px;
+  color: #702552;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-family: inherit;
+}
+
+#do-reset:hover {
+  background: #702552;
+  color: white;
+}
+
+/* Overlay de "eye strain" */
+#do-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9000;
+  background: #f5f0e8;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  mix-blend-mode: multiply;
+}
+
+/* Modo oscuro */
+@media (prefers-color-scheme: dark) {
+  #display-options-panel {
+    background: #1e1e1e;
+    border-color: #3a2030;
+    color: #eee;
+  }
+  #display-options-panel h3 {
+    color: #e8a0c8;
+    border-color: #3a2030;
+  }
+  .do-group label { color: #ccc; }
+  .do-font-btn {
+    background: #2a2a2a;
+    border-color: #444;
+    color: #ccc;
+  }
+  .do-font-btn.active {
+    background: #702552;
+    color: white;
+  }
+  #do-reset { color: #e8a0c8; border-color: #e8a0c8; }
+  #do-reset:hover { background: #702552; color: white; border-color: #702552; }
+}
