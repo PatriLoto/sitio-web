@@ -3,6 +3,9 @@
 project:
   type: website
   output-dir: _site
+  resources:
+    - display-options.css    
+    - display-options.js     
 
 website:
   title: "Patricia Andrea Loto"
@@ -35,10 +38,12 @@ format:
     toc-depth: 2
     toc-title: "En esta página"
     lang: es 
+    include-in-header:                         #CSS va en el <head>
+      - text: |
+          <link rel="stylesheet" href="/display-options.css">
     include-after-body:
       - text: |
-          <link rel="stylesheet" href="display-options.css">
-          <script src="display-options.js"></script>
+          <script src="/display-options.js"></script>
    
 editor: visual
 
