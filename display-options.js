@@ -46,9 +46,14 @@
     const root    = document.documentElement;
     const body    = document.body;
     const overlay = document.getElementById('do-overlay');
+    const container = document.getElementById('quarto-content') || body;
 
     root.style.fontSize   = s.fontSize + 'px';
     body.style.lineHeight = (s.spacing / 100).toFixed(2);
+
+   // pruebo cambio de margen lateral
+    container.style.paddingLeft  = s.padding + 'px';
+    container.style.paddingRight = s.padding + 'px'; 
 
     const basePad = 0; // Quarto ya tiene su propio padding
     body.style.paddingLeft  = s.padding + 'px';
