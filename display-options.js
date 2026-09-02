@@ -1,6 +1,6 @@
 /* ========================================
    Display Options Widget — Patricia Loto
-   Guardado automático en localStorage
+ 
    ======================================== */
 
 (function () {
