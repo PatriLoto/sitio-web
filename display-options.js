@@ -46,7 +46,8 @@
     const root    = document.documentElement;
     const body    = document.body;
     const overlay = document.getElementById('do-overlay');
-    const container = document.getElementById('quarto-document-content.content') || body;
+    //const container = document.getElementById('quarto-document-content.content') || body;
+    const container = document.querySelector('#quarto-document-content.content') || body;
 
     root.style.fontSize   = s.fontSize + 'px';
     body.style.lineHeight = (s.spacing / 100).toFixed(2);
